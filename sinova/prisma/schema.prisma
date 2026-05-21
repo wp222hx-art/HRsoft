@@ -1,0 +1,328 @@
+// SiNova Platform — Prisma Schema (SQLite for demo, no enums)
+// Models the full strategic blueprint: dual portals, 10 product modules,
+// 4 platform foundations (Vault / Passport / Copilot / Chain), Token economy.
+//
+// All enum-like fields are stored as String. Allowed values are enforced in
+// `src/lib/enums.ts`. Migrating to Postgres later will let you swap to real enums.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// USERS & DUAL PORTALS
+// portal:    PRO | SME | ADMIN
+// proType:   P1_CPA_FIRM | P2_INDIE_CPA | P3_PAYROLL | P4_CORPSEC
+// smeType:   S1_ECOMMERCE | S2_WEB3 | S3_SAAS | S4_TRADITIONAL
+// aiPersona: ALEX | MAYA | DR_CHEN
+// ─────────────────────────────────────────────────────────────────────────────
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  passwordHash  String
+  name          String
+  portal        String   // PRO | SME | ADMIN
+  proType       String?
+  smeType       String?
+  aiPersona     String?  // SME side: which AI Partner they chose
+  novaTokens    Int      @default(0)
+  streakDays    Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  managedEntities Entity[] @relation("Manager")
+  ownedEntities   Entity[] @relation("Owner")
+  badges          UserBadge[]
+  copilotChats    CopilotChat[]
+  tokenLedger     TokenLedgerEntry[]
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ENTITY — the underlying corporate body served by SiNova (the MAUE unit)
+// jurisdiction: SG | HK | US | UK | AE
+// kind:         PRIVATE_LTD | LLC | DAO_LLC | FOUNDATION | BRANCH
+// hcsState:     HEALTHY | AT_RISK | WARNING | CRITICAL | DEFAULTED
+// ─────────────────────────────────────────────────────────────────────────────
+model Entity {
+  id              String   @id @default(cuid())
+  legalName       String
+  jurisdiction    String   // SG | HK | US | UK | AE
+  kind            String   @default("PRIVATE_LTD")
+  registrationNo  String?
+  industry        String?
+  passportStatus  String   @default("DRAFT")    // DRAFT | KYB_PENDING | VERIFIED | SUSPENDED
+  passportCountries String @default("SG")        // CSV of activated jurisdictions
+
+  // Arena Health Compliance Score (HCS · 0-100)
+  hcs             Int      @default(85)
+  hcsState        String   @default("HEALTHY")
+
+  ownerId         String
+  owner           User     @relation("Owner",   fields: [ownerId],   references: [id])
+  managerId       String?
+  manager         User?    @relation("Manager", fields: [managerId], references: [id])
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  filings         TaxFiling[]
+  payrolls        PayrollRun[]
+  invoices        Invoice[]
+  bills           Bill[]
+  govActions      GovAction[]
+  vatReturns      VatReturn[]
+  radarAlerts     RadarAlert[]
+  vaultDocs       VaultDoc[]
+  arenaEvents     ArenaEvent[]
+}
+
+// 2.2.1  SiNova.TaxShield  — Multi-jurisdiction Corporate Tax
+// status: DRAFT | AI_REVIEWING | PENDING_HUMAN | APPROVED | SUBMITTED | FILED | AUDITED
+model TaxFiling {
+  id            String   @id @default(cuid())
+  entityId      String
+  entity        Entity   @relation(fields: [entityId], references: [id], onDelete: Cascade)
+  formType      String
+  jurisdiction  String
+  taxYear       Int
+  taxableIncome Float    @default(0)
+  taxPayable    Float    @default(0)
+  aiSavingHint  String?
+  status        String   @default("DRAFT")
+  dueDate       DateTime
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+// 2.2.2  SiNova.PayFlow  — Payroll + Equity + Benefits
+// status: DRAFT | APPROVED | PAID | REPORTED
+model PayrollRun {
+  id            String   @id @default(cuid())
+  entityId      String
+  entity        Entity   @relation(fields: [entityId], references: [id], onDelete: Cascade)
+  period        String
+  jurisdiction  String
+  headcount     Int
+  grossTotal    Float
+  cpfTotal      Float    @default(0)
+  netTotal      Float
+  status        String   @default("DRAFT")
+  createdAt     DateTime @default(now())
+}
+
+// status: GRANTED | VESTING | EXERCISABLE | EXERCISED | TAXED
+model EsopGrant {
+  id          String   @id @default(cuid())
+  entityId    String
+  employee    String
+  shares      Int
+  strike      Float
+  vestStart   DateTime
+  vestMonths  Int      @default(48)
+  cliffMonths Int      @default(12)
+  status      String   @default("VESTING")
+  createdAt   DateTime @default(now())
+}
+
+// 2.2.3  SiNova.CashLoop  — AR + AP dual closed-loop ★ flagship
+// invoice.status: DRAFT | ISSUED | SENT | VIEWED | OVERDUE | COLLECTED | BAD_DEBT
+model Invoice {
+  id            String   @id @default(cuid())
+  entityId      String
+  entity        Entity   @relation(fields: [entityId], references: [id], onDelete: Cascade)
+  invoiceNo     String
+  customer      String
+  currency      String   @default("SGD")
+  amount        Float
+  issueDate     DateTime
+  dueDate       DateTime
+  status        String   @default("ISSUED")
+  daysOverdue   Int      @default(0)
+  customerRiskScore Int  @default(80)
+  dunningStage  Int      @default(0)
+  createdAt     DateTime @default(now())
+}
+
+// bill.status: DRAFT | APPROVAL_PENDING | APPROVED | SCHEDULED | PAID | REJECTED
+model Bill {
+  id            String   @id @default(cuid())
+  entityId      String
+  entity        Entity   @relation(fields: [entityId], references: [id], onDelete: Cascade)
+  vendor        String
+  currency      String   @default("SGD")
+  amount        Float
+  dueDate       DateTime
+  status        String   @default("APPROVAL_PENDING")
+  ocrConfidence Float    @default(0.95)
+  createdAt     DateTime @default(now())
+}
+
+// 2.2.4  SiNova.GovHub  — Cross-border Corp Sec
+// kind:   INCORPORATION | ADDRESS_CHANGE | DIRECTOR_CHANGE | SHARE_ALLOTMENT | AGM | ARTICLES_AMEND | DAO_RESOLUTION
+// status: INITIATED | DRAFTED | INTERNAL_APPROVED | CLIENT_SIGNED | FILED | CONFIRMED
+model GovAction {
+  id            String   @id @default(cuid())
+  entityId      String
+  entity        Entity   @relation(fields: [entityId], references: [id], onDelete: Cascade)
+  kind          String
+  jurisdiction  String
+  title         String
+  status        String   @default("DRAFTED")
+  dueDate       DateTime?
+  createdAt     DateTime @default(now())
+}
+
+// 2.2.5  SiNova.TaxNet  — Global indirect tax
+// regime: SG_GST | HK_NONE | UK_VAT | EU_OSS | US_SALES_TAX | AU_GST | MY_SST | AE_VAT | DST
+// status: COLLECTING | FILING | FILED | EXCEPTION
+model VatReturn {
+  id            String   @id @default(cuid())
+  entityId      String
+  entity        Entity   @relation(fields: [entityId], references: [id], onDelete: Cascade)
+  regime        String
+  period        String
+  outputTax     Float    @default(0)
+  inputTax      Float    @default(0)
+  netPayable    Float    @default(0)
+  exceptions    Int      @default(0)
+  status        String   @default("COLLECTING")
+  dueDate       DateTime
+  createdAt     DateTime @default(now())
+}
+
+// 2.2.6  SiNova.Radar  — Proactive risk warning ★ killer #1
+// level:  HEALTHY | WATCH | ALERT | CRITICAL
+// status: OPEN | ACK | REMEDIATING | CLOSED
+model RadarAlert {
+  id              String   @id @default(cuid())
+  entityId        String
+  entity          Entity   @relation(fields: [entityId], references: [id], onDelete: Cascade)
+  title           String
+  description     String
+  level           String
+  scoreHistory    Int      // weight 40%
+  scoreBenchmark  Int      // weight 30%
+  scoreReg        Int      // weight 30%
+  composite       Int
+  daysAhead       Int
+  remedy          String
+  status          String   @default("OPEN")
+  sourceModule    String
+  createdAt       DateTime @default(now())
+}
+
+// 2.2.7  SiNova.Partner  — AI Partner human-like ★ killer #2
+model CopilotChat {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String   @default("New conversation")
+  persona   String?  // ALEX | MAYA | DR_CHEN | null (NovaCopilot generic)
+  createdAt DateTime @default(now())
+  messages  CopilotMessage[]
+}
+
+model CopilotMessage {
+  id         String      @id @default(cuid())
+  chatId     String
+  chat       CopilotChat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  role       String      // user | assistant | tool
+  content    String
+  agentTrace String?     // JSON: which module agents were invoked
+  createdAt  DateTime    @default(now())
+}
+
+// 2.2.8  SiNova.Market  — Open App Store ★ killer #3
+model MarketApp {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  name          String
+  category      String   // AUDIT | TRANSFER_PRICING | ESG | CRYPTO_TAX | AR_COLLECT | OTHER
+  developer     String
+  shortDesc     String
+  longDesc      String
+  iconEmoji     String   @default("🧩")
+  rating        Float    @default(4.5)
+  installs      Int      @default(0)
+  monthlyPrice  Float    @default(0)
+  devShare      Float    @default(0.7)
+  status        String   @default("LISTED")
+  createdAt     DateTime @default(now())
+}
+
+// 2.2.9  SiNova.Arena  — Gamified compliance ★ killer #4
+model Badge {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  name        String
+  emoji       String
+  description String
+  category    String   // PUNCTUAL | ACCURATE | GLOBAL | SPEED | DEFENSE | STREAK | DIAMOND
+  earnedBy    UserBadge[]
+}
+
+model UserBadge {
+  id        String   @id @default(cuid())
+  userId    String
+  badgeId   String
+  earnedAt  DateTime @default(now())
+  user      User     @relation(fields: [userId],  references: [id], onDelete: Cascade)
+  badge     Badge    @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, badgeId])
+}
+
+model ArenaEvent {
+  id         String   @id @default(cuid())
+  entityId   String
+  entity     Entity   @relation(fields: [entityId], references: [id], onDelete: Cascade)
+  kind       String
+  hcsDelta   Int      @default(0)
+  tokenDelta Int      @default(0)
+  message    String
+  createdAt  DateTime @default(now())
+}
+
+// 2.2.10 SiNova.Insight  — Anonymized data products ★ killer #5
+model InsightReport {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  region      String   // SG / SEA / APAC
+  pricesgd    Float
+  cadence     String   // YEARLY | QUARTERLY | MONTHLY
+  audience    String   // VC | IB | GOV | MEDIA
+  summary     String
+  kAnonymity  Int      @default(10)
+  diffPrivacy Float    @default(1.0)
+  createdAt   DateTime @default(now())
+}
+
+// 1.4 Platform Foundations: NovaVault / NovaChain
+model VaultDoc {
+  id          String   @id @default(cuid())
+  entityId    String
+  entity      Entity   @relation(fields: [entityId], references: [id], onDelete: Cascade)
+  name        String
+  category    String   // CONTRACT | TAX | PAYROLL | GOV | INVOICE | OTHER
+  sizeKb      Int      @default(120)
+  // NovaChain hash anchoring (demo: stable mock hash)
+  chainHash   String
+  chainTxId   String?
+  uploadedAt  DateTime @default(now())
+}
+
+// $NOVA Token off-chain ledger (demo)
+model TokenLedgerEntry {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  delta     Int
+  reason    String
+  createdAt DateTime @default(now())
+}
