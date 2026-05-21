@@ -6,6 +6,7 @@ import { RADAR_LEVEL_META } from '@/lib/enums';
 import { fmtDate, formatMoney, relativeDays } from '@/lib/utils';
 import { ArrowRight, AlertTriangle, Calendar, Activity, Briefcase } from 'lucide-react';
 import { getServerT } from '@/i18n/server';
+import { ProductMatrix } from '@/components/modules/ProductMatrix';
 
 export default async function ProHome() {
   const user = await getCurrentUser();
@@ -64,6 +65,9 @@ export default async function ProHome() {
           {t('pro.home.manageEntities', { n: entityCount })}
         </Link>
       </div>
+
+      {/* 产品矩阵 — 10 大模块入口 */}
+      <ProductMatrix portalBase="/pro" />
 
       {/* Stat tiles */}
       <div className="grid gap-3 md:grid-cols-4">

@@ -1200,6 +1200,78 @@ const zh: Dict = {
   'hint.insight.budget.title':      '隐私预算:实时 Demo',
   'hint.insight.budget.body':       'k 越大、ε 越小,数据保护越强,但精度越低。SiNova 默认 k≥10、ε=1.0,既符合 GDPR / PDPA,又能给出有价值的洞察。',
   'hint.insight.budget.next':       '调到 k=20、ε=0.5 可以看到「更安全但更模糊」的版本对比。',
+
+  // ─── 产品矩阵 (Product Matrix on Home) ──────────────────────────────
+  'matrix.title':                   '🚀 SiNova 产品矩阵',
+  'matrix.subtitle':                '十大产品模块,每一个都可点击进入并体验完整流程,旁边都有 ✨ AI 助手为您解说每一步。',
+  'matrix.countLabel':              '{n} 大模块',
+  'matrix.enterCta':                '进入体验',
+  'matrix.tip':                     '点击任一模块卡片即可进入,所有数据均为脱敏 Demo,可放心点击、修改、回放。',
+
+  // 产品矩阵 — 助手解说气泡 (overview)
+  'hint.matrix.overview.title':     '一图看懂整个 SiNova 平台',
+  'hint.matrix.overview.body':      '这十张卡片代表 SiNova 的十大产品模块 — 从税务、薪酬、收付,到全球税网、风险雷达、合规集市。每张卡片都可以直接点击进入,内部有完整的可点击 Demo 流程与 AI 助手分步解说。',
+  'hint.matrix.overview.next':      '建议从「📡 雷达」或「🛡 税盾」开始体验 — 它们最能体现 AI 主动合规的价值。',
+
+  // 10 模块卡片文案
+  'matrix.taxshield.name':          '税盾 TaxShield',
+  'matrix.taxshield.tag':           'AI 报税 + 节税建议',
+  'matrix.taxshield.desc':          '一键拉取账目、自动生成 GST/CIT 申报草稿、AI 给出节税空间。点开可查看申报底稿、AI 复核与一键提报全流程。',
+
+  'matrix.payflow.name':            '薪流 PayFlow',
+  'matrix.payflow.tag':             '跨境薪酬 + 期权管理',
+  'matrix.payflow.desc':            '自动算薪、自动代扣个税与社保、ESOP 行权全周期跟踪。点开可查看薪酬周期、期权档案与 AI 风险提醒。',
+
+  'matrix.cashloop.name':           '收付通 CashLoop',
+  'matrix.cashloop.tag':            'AR/AP + AI 催款 + 保理',
+  'matrix.cashloop.desc':           '应收应付一图、AI 自动起草催款邮件、应收发票一键贴现保理。点开可体验 AI 催款 + 24h 保理资金到账演示。',
+
+  'matrix.govhub.name':             '治理云 GovHub',
+  'matrix.govhub.tag':              '集团架构 + 治理评分',
+  'matrix.govhub.desc':             '可视化集团法人架构,治理评分实时计算,关键合规节点甘特图一目了然。点开可点击任一实体查看治理画像。',
+
+  'matrix.taxnet.name':             '全球税网 TaxNet',
+  'matrix.taxnet.tag':              '多税制 + 全球申报',
+  'matrix.taxnet.desc':             '覆盖新加坡、香港、中国、美国等主要税制,一张地图看遍全球申报状态。点开可切换税制查看本地化模板。',
+
+  'matrix.radar.name':              '雷达 Radar',
+  'matrix.radar.tag':               '合规风险评分 + 主动预警',
+  'matrix.radar.desc':              '90 天内的合规风险被 AI 实时评分,关键预警自动派发到负责人。点开可调整评分维度、查看实时告警流。',
+
+  'matrix.partner.name':            'AI 合伙人 Partner',
+  'matrix.partner.tag':             '多角色 AI 顾问',
+  'matrix.partner.desc':            '4 位 AI 顾问 (财税、法务、HR、CFO) 全天候在线,选择您喜欢的人设直接对话。点开即可与您的 AI 合伙人聊天。',
+
+  'matrix.market.name':             '集市 Market',
+  'matrix.market.tag':              '合规应用商店 · 70/30 分账',
+  'matrix.market.desc':             '审核过的合规 App 一键安装,开发者在 SiNova 平台上架并获得 70% 收入分成。点开可浏览应用、查看开发者文档。',
+
+  'matrix.arena.name':              '成就中心 Arena',
+  'matrix.arena.tag':               '合规健康分 + 行业排行',
+  'matrix.arena.desc':              '把合规打造成游戏:HCS 健康分、徽章成就、行业赛季排行榜。点开可查看您当前的健康分与未解锁徽章。',
+
+  'matrix.insight.name':            '智库 Insight',
+  'matrix.insight.tag':             'k-匿名行业基准报告',
+  'matrix.insight.desc':            '在 k-匿名 + 差分隐私保护下查看行业基准 (税负、薪资、罚款分布)。点开可拖动 k/ε 滑块实时观察隐私-效用权衡。',
+
+  // ─── 演示反馈 Toast (action feedback) ──────────────────────────────
+  'taxshield.toast.opened':         '已打开 {name} 的税务工作台 · 申报凭证、底稿、AI 节税建议已加载',
+  'payflow.toast.runOpened':        '已加载 {name} · 周期 {period} 的工资单 · 可查看个税计算与社保明细',
+  'payflow.toast.esopOpened':       '已打开 {name} 的期权档案 · 当前状态:{status}',
+  'cashloop.toast.aiDun':           '已生成 AI 催款建议:针对 {customer} · 邮件草稿与电话脚本已就绪',
+  'cashloop.toast.discount':        '发票 {invoiceNo} 已加入折扣保理池 · 资金可在 24h 内到账',
+  'cashloop.toast.invoiceCreated':  '已新建应收发票草稿 · 可一键发送至客户邮箱与税局申报',
+  'cashloop.toast.billUploaded':    '已上传应付账单 · OCR 已识别金额、税号、付款条款',
+  'govhub.toast.entityOpened':      '已打开 {name} · 治理评分 {hcs}/100 · 关联架构图已渲染',
+  'taxnet.toast.regimeOpened':      '已切换到 {code} 税制 · 已加载 {n} 项当地申报模板',
+  'taxnet.toast.filingOpened':      '已打开 {name} · 周期 {period} · 表单与底稿已自动匹配',
+  'market.toast.install':           '已为「{name}」启动安装流程 · 完成授权后将自动接入您的 SiNova 工作台',
+  'market.toast.docs':              '开发者文档已在新窗口打开 · 包含 OpenAPI、SDK 与计费规范',
+  'market.toast.submit':            '已进入「应用提交」流程 · 完成审核后即可上架,平台与开发者按 30/70 分账',
+  'insight.toast.apiApplied':       '数据 API 申请已提交 · 通过隐私评审后将在 1 个工作日内开通',
+  'insight.toast.buyReport':        '已加入购物车:《{title}》 · 支付后立刻发送 PDF + 数据接口',
+  'insight.toast.apiAccess':        '已为《{title}》生成 API 访问 Token · 配额、调用样例可在开发者中心查看',
+  'insight.toast.share':            '感谢您贡献脱敏数据 · NovaToken 奖励已计入您的账户',
 };
 
 // ─── English ────────────────────────────────────────────────────────
@@ -2364,6 +2436,59 @@ const en: Dict = {
   'hint.insight.budget.title':      'Privacy budget: live demo',
   'hint.insight.budget.body':       'Larger k and smaller ε mean stronger protection but lower utility. SiNova defaults to k≥10 and ε=1.0, which satisfies GDPR / PDPA while still giving valuable insights.',
   'hint.insight.budget.next':       'Try k=20 and ε=0.5 to see how a "safer but blurrier" version compares.',
+
+  // ─── Product Matrix (on Home) ──────────────────────────────────────
+  'matrix.title':                   '🚀 SiNova Product Matrix',
+  'matrix.subtitle':                'Ten product modules — every card is clickable and walks you through a full demo flow. A ✨ AI guide sits next to every step.',
+  'matrix.countLabel':              '{n} modules',
+  'matrix.enterCta':                'Enter demo',
+  'matrix.tip':                     'Click any card to dive in. All data is anonymised demo data — feel free to click, edit, and replay.',
+
+  // Matrix — overview hint
+  'hint.matrix.overview.title':     'See the whole SiNova platform at a glance',
+  'hint.matrix.overview.body':      'These ten cards are SiNova\'s ten product pillars — from tax and payroll to global tax network, risk radar and compliance marketplace. Every card is clickable and opens a full interactive demo with an AI guide that explains each step.',
+  'hint.matrix.overview.next':      'We recommend starting with Radar or TaxShield — they best showcase the value of proactive AI compliance.',
+
+  // 10 module cards
+  'matrix.taxshield.name':          'TaxShield',
+  'matrix.taxshield.tag':           'AI tax filing + savings advisor',
+  'matrix.taxshield.desc':          'One-click GL pull, auto-generated GST / CIT drafts, AI-suggested tax savings. Click in for the full filing, AI review and submission flow.',
+
+  'matrix.payflow.name':            'PayFlow',
+  'matrix.payflow.tag':             'Cross-border payroll + ESOP',
+  'matrix.payflow.desc':            'Automated payroll runs, withholding & social security, full-cycle ESOP tracking. Click in to view runs, ESOP records and AI risk alerts.',
+
+  'matrix.cashloop.name':           'CashLoop',
+  'matrix.cashloop.tag':            'AR / AP + AI dunning + factoring',
+  'matrix.cashloop.desc':           'AR/AP at a glance, AI-drafted dunning emails, one-click invoice factoring. Click in to try AI dunning and a 24h factoring demo.',
+
+  'matrix.govhub.name':             'GovHub',
+  'matrix.govhub.tag':              'Group structure + governance score',
+  'matrix.govhub.desc':             'Visualise group legal structure, live governance score, key compliance milestones in a Gantt. Click any entity to drill in.',
+
+  'matrix.taxnet.name':             'TaxNet',
+  'matrix.taxnet.tag':              'Multi-jurisdiction filings',
+  'matrix.taxnet.desc':             'Covers Singapore, Hong Kong, China, US and more — one map, every filing status. Click in to switch regimes and view localised templates.',
+
+  'matrix.radar.name':              'Radar',
+  'matrix.radar.tag':               'Compliance risk score + alerts',
+  'matrix.radar.desc':              '90-day compliance risk scored in real time by AI; critical alerts auto-routed to owners. Click in to tune scoring weights and see live alerts.',
+
+  'matrix.partner.name':            'AI Partner',
+  'matrix.partner.tag':             'Multi-role AI advisors',
+  'matrix.partner.desc':            'Four AI advisors (Tax, Legal, HR, CFO) on call 24/7. Pick the persona that fits your style and chat directly.',
+
+  'matrix.market.name':             'Market',
+  'matrix.market.tag':              'Compliance app store · 70/30 share',
+  'matrix.market.desc':             'Vetted compliance apps installable in one click; developers list on SiNova and earn a 70% revenue share. Click in to browse apps and dev docs.',
+
+  'matrix.arena.name':              'Arena',
+  'matrix.arena.tag':               'Compliance health score + leaderboard',
+  'matrix.arena.desc':              'Gamified compliance: HCS health score, achievement badges, seasonal industry leaderboard. Click in to see your score and locked badges.',
+
+  'matrix.insight.name':            'Insight',
+  'matrix.insight.tag':             'k-anonymous industry benchmarks',
+  'matrix.insight.desc':            'Industry benchmarks (tax burden, payroll, fines) under k-anonymity + differential privacy. Click in to drag the k/ε sliders for live trade-offs.',
 
   // ─── Demo toasts (action feedback) ─────────────────────────────────
   'taxshield.toast.opened':         'Opened {name} · filings, working papers, and AI tax-saving suggestions are loaded.',

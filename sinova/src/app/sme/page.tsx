@@ -6,6 +6,7 @@ import { PERSONA_PROFILES, RADAR_LEVEL_META, JURISDICTION_META, type Persona } f
 import { computeHcs, hcsState } from '@/lib/arena';
 import { fmtDate, formatMoney, relativeDays } from '@/lib/utils';
 import { getServerT } from '@/i18n/server';
+import { ProductMatrix } from '@/components/modules/ProductMatrix';
 
 export default async function SmeHome() {
   const user = await getCurrentUser();
@@ -74,6 +75,9 @@ export default async function SmeHome() {
           </Link>
         </div>
       </section>
+
+      {/* 产品矩阵 — 10 大模块入口 */}
+      <ProductMatrix portalBase="/sme" />
 
       {/* Stat tiles */}
       <div className="grid gap-3 md:grid-cols-4">
