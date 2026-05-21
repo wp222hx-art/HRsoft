@@ -2,6 +2,8 @@
 // Market — Compliance App Store. 70/30 revenue share. Open API.
 import { useState } from 'react';
 import { useI18n } from '@/i18n/client';
+import { HelperHint } from '../HelperHint';
+import { useDemoToast } from '../useDemoToast';
 
 type App = {
   id: string; slug: string; name: string; tagline: string;
@@ -22,6 +24,7 @@ const CAT_META: Record<string, { color: string; emoji: string }> = {
 
 export function MarketView({ apps }: { apps: App[] }) {
   const { t } = useI18n();
+  const toast = useDemoToast();
   const [filter, setFilter] = useState<string>('ALL');
   const cats = Array.from(new Set(apps.map((a) => a.category)));
   const filtered = filter === 'ALL' ? apps : apps.filter((a) => a.category === filter);
@@ -31,6 +34,9 @@ export function MarketView({ apps }: { apps: App[] }) {
 
   return (
     <div className="space-y-5">
+      <div className="flex items-center justify-end">
+        <HelperHint id="market.overview" />
+      </div>
       {/* Header stats */}
       <section className="grid gap-3 md:grid-cols-4">
         <Stat label={t('market.stat.appsLabel')}     value={String(apps.length)}                         hint={t('market.stat.appsHint2')} />
@@ -100,7 +106,12 @@ export function MarketView({ apps }: { apps: App[] }) {
                   <div className="text-[10px] text-slate-500">{t('market.installsLabel')}</div>
                   <div className="text-sm font-mono text-slate-200">{a.installs.toLocaleString()}</div>
                 </div>
-                <button className="nova-btn-primary text-xs">{t('market.installLabel')}</button>
+                <button
+                  className="nova-btn-primary text-xs"
+                  onClick={() => toast(t('market.toast.install', { name: a.name }), 'success')}
+                >
+                  {t('market.installLabel')}
+                </button>
               </div>
             </div>
           );
@@ -116,14 +127,27 @@ export function MarketView({ apps }: { apps: App[] }) {
       <section className="rounded-2xl border border-white/10 bg-gradient-to-r from-nova-900/40 to-ink-900/50 p-5">
         <div className="grid gap-4 md:grid-cols-2">
           <div>
-            <div className="text-sm font-semibold text-white">{t('market.dev.title2')}</div>
+            <div className="flex items-center gap-2">
+              <div className="text-sm font-semibold text-white">{t('market.dev.title2')}</div>
+              <HelperHint id="market.dev" />
+            </div>
             <div className="mt-1 text-[12px] text-slate-300">
               {t('market.dev.body2')}
             </div>
           </div>
           <div className="flex items-center justify-end gap-2">
-            <button className="nova-btn-outline text-xs">{t('market.dev.docs2')}</button>
-            <button className="nova-btn-primary text-xs">{t('market.dev.submit2')}</button>
+            <button
+              className="nova-btn-outline text-xs"
+              onClick={() => toast(t('market.toast.docs'), 'info')}
+            >
+              {t('market.dev.docs2')}
+            </button>
+            <button
+              className="nova-btn-primary text-xs"
+              onClick={() => toast(t('market.toast.submit'), 'success')}
+            >
+              {t('market.dev.submit2')}
+            </button>
           </div>
         </div>
       </section>

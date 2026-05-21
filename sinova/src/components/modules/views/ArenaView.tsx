@@ -3,6 +3,7 @@
 import { BADGE_CATALOG, computeHcs, hcsState } from '@/lib/arena';
 import { fmtDate } from '@/lib/utils';
 import { useI18n } from '@/i18n/client';
+import { HelperHint } from '../HelperHint';
 
 type Badge = { id: string; code: string; name: string; emoji: string; description: string; category: string };
 type UserBadge = { id: string; awardedAt: string; badge: Badge };
@@ -46,7 +47,10 @@ export function ArenaView({
             </div>
           </div>
           <div className="space-y-3">
-            <div className="text-sm font-semibold text-white">{t('arena.title2')}</div>
+            <div className="flex items-center gap-2">
+              <div className="text-sm font-semibold text-white">{t('arena.title2')}</div>
+              <HelperHint id="arena.score" />
+            </div>
             <div className="text-[12px] text-slate-300">
               {t('arena.formula2')}
             </div>
@@ -68,8 +72,11 @@ export function ArenaView({
         <section className="rounded-2xl border border-white/10 bg-ink-900/50">
           <div className="flex items-center justify-between border-b border-white/5 px-4 py-3">
             <div>
-              <div className="font-semibold">
-                {t('arena.badges.titleFmt', { earned: myBadges.length, total: totalBadges })}
+              <div className="flex items-center gap-2">
+                <div className="font-semibold">
+                  {t('arena.badges.titleFmt', { earned: myBadges.length, total: totalBadges })}
+                </div>
+                <HelperHint id="arena.badges" />
               </div>
               <div className="text-[11px] text-slate-400">{t('arena.badges.subtitle')}</div>
             </div>
@@ -101,7 +108,10 @@ export function ArenaView({
         {/* Leaderboard */}
         <section className="rounded-2xl border border-white/10 bg-ink-900/50">
           <div className="flex items-center justify-between border-b border-white/5 px-4 py-3">
-            <div className="font-semibold">{t('arena.lb.title2')}</div>
+            <div className="flex items-center gap-2">
+              <div className="font-semibold">{t('arena.lb.title2')}</div>
+              <HelperHint id="arena.lb" />
+            </div>
             <span className="text-[11px] text-slate-400">{t('arena.lb.tokens2')}</span>
           </div>
           <div className="divide-y divide-white/5">

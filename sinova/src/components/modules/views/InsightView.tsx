@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { formatMoney } from '@/lib/utils';
 import { useI18n } from '@/i18n/client';
+import { HelperHint } from '../HelperHint';
+import { useDemoToast } from '../useDemoToast';
 
 type Report = {
   id: string; slug: string; title: string; tagline: string;
@@ -11,6 +13,7 @@ type Report = {
 
 export function InsightView({ reports, stats }: { reports: Report[]; stats: { entityCount: number; filingCount: number } }) {
   const { t } = useI18n();
+  const toast = useDemoToast();
   const [eps, setEps]   = useState(1.0);
   const [k, setK]       = useState(10);
 
@@ -25,6 +28,9 @@ export function InsightView({ reports, stats }: { reports: Report[]; stats: { en
 
   return (
     <div className="space-y-5">
+      <div className="flex items-center justify-end">
+        <HelperHint id="insight.overview" />
+      </div>
       {/* Strategy banner */}
       <section className="rounded-2xl border border-cyan-500/30 bg-gradient-to-r from-cyan-500/10 via-ink-900/50 to-ink-900/50 p-5">
         <div className="flex items-start gap-3">
@@ -42,7 +48,10 @@ export function InsightView({ reports, stats }: { reports: Report[]; stats: { en
       {/* Privacy budget controls */}
       <section className="rounded-2xl border border-white/10 bg-ink-900/50 p-4">
         <div className="flex items-center justify-between">
-          <div className="text-sm font-semibold">{t('insight.budget.title2')}</div>
+          <div className="flex items-center gap-2">
+            <div className="text-sm font-semibold">{t('insight.budget.title2')}</div>
+            <HelperHint id="insight.budget" />
+          </div>
           <span className="text-[11px] text-slate-400">
             {t('insight.budget.source2', { e: stats.entityCount, f: stats.filingCount.toLocaleString() })}
           </span>
@@ -87,7 +96,12 @@ export function InsightView({ reports, stats }: { reports: Report[]; stats: { en
       <section>
         <div className="mb-3 flex items-center justify-between">
           <div className="text-sm font-semibold">{t('insight.reports.titleFmt', { n: reports.length })}</div>
-          <button className="nova-btn-outline text-xs">{t('insight.reports.applyApi')}</button>
+          <button
+            className="nova-btn-outline text-xs"
+            onClick={() => toast(t('insight.toast.apiApplied'), 'info')}
+          >
+            {t('insight.reports.applyApi')}
+          </button>
         </div>
         <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
           {reports.map((r) => (
@@ -113,8 +127,18 @@ export function InsightView({ reports, stats }: { reports: Report[]; stats: { en
                 </div>
               </div>
               <div className="mt-3 flex items-center gap-2">
-                <button className="nova-btn-primary flex-1 text-xs">{t('insight.reports.buyPdf2')}</button>
-                <button className="nova-btn-outline text-xs">{t('insight.api')}</button>
+                <button
+                  className="nova-btn-primary flex-1 text-xs"
+                  onClick={() => toast(t('insight.toast.buyReport', { title: r.title }), 'success')}
+                >
+                  {t('insight.reports.buyPdf2')}
+                </button>
+                <button
+                  className="nova-btn-outline text-xs"
+                  onClick={() => toast(t('insight.toast.apiAccess', { title: r.title }), 'info')}
+                >
+                  {t('insight.api')}
+                </button>
               </div>
             </div>
           ))}
@@ -136,7 +160,12 @@ export function InsightView({ reports, stats }: { reports: Report[]; stats: { en
               {t('insight.reward.body2')}
             </div>
           </div>
-          <button className="nova-btn-primary text-xs">{t('insight.reward.cta2')}</button>
+          <button
+            className="nova-btn-primary text-xs"
+            onClick={() => toast(t('insight.toast.share'), 'success')}
+          >
+            {t('insight.reward.cta2')}
+          </button>
         </div>
       </section>
     </div>

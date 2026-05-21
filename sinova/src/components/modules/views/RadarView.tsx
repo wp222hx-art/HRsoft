@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { RADAR_LEVEL_META } from '@/lib/enums';
 import { fmtDate } from '@/lib/utils';
 import { useI18n } from '@/i18n/client';
+import { HelperHint } from '../HelperHint';
 
 type Alert = {
   id: string; title: string; status: string; level: string;
@@ -64,7 +65,10 @@ export function RadarView({ alerts: initial }: { alerts: Alert[] }) {
       <section className="rounded-2xl border border-white/10 bg-gradient-to-br from-nova-900/40 via-ink-950 to-ink-950 p-5">
         <div className="flex items-center justify-between">
           <div>
-            <div className="text-sm font-semibold">{t('radar.section.score')}</div>
+            <div className="flex items-center gap-2">
+              <div className="text-sm font-semibold">{t('radar.section.score')}</div>
+              <HelperHint id="radar.score" />
+            </div>
             <div className="text-[11px] text-slate-400">
               {t('radar.section.scoreFormula')}<span className="font-mono text-slate-300">composite = history × 0.4 + benchmark × 0.3 + regulatory × 0.3</span>
             </div>
@@ -114,7 +118,10 @@ export function RadarView({ alerts: initial }: { alerts: Alert[] }) {
       <section className="rounded-2xl border border-white/10 bg-ink-900/50">
         <div className="flex items-center justify-between border-b border-white/5 px-4 py-3">
           <div>
-            <div className="font-semibold">{t('radar.alerts.title')}</div>
+            <div className="flex items-center gap-2">
+              <div className="font-semibold">{t('radar.alerts.title')}</div>
+              <HelperHint id="radar.alerts" />
+            </div>
             <div className="text-[11px] text-slate-400">{t('radar.alerts.hint')}</div>
           </div>
           <div className="text-xs text-slate-500">

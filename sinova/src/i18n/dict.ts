@@ -1104,6 +1104,102 @@ const zh: Dict = {
   'help.cta.openCopilot':       '✨ 打开 NovaCopilot 立即提问',
   'help.cta.tryModule':         '前往该模块 →',
   'help.cta.backTop':           '↑ 回到顶部',
+
+  // ─── HelperHint (10 大模块 · 步骤旁的 ✨AI 助手解说) ────────────────────
+  'hint.btn.help':              '点击查看 AI 助手解说',
+  'hint.btn.label':             'AI 助手解说',
+  'hint.assistantName':         'NovaCopilot · 引导员',
+  'hint.nextLabel':             '下一步:',
+  'hint.footer':                '👉 任何步骤都可以直接问 NovaCopilot,我会帮您一键完成。',
+
+  // TaxShield (税盾)
+  'hint.taxshield.overview.title':  '税务工作台:在做什么',
+  'hint.taxshield.overview.body':   '这里集中展示了您旗下所有公司当前需要申报的税表(SG / HK / US / UK / AE)。AI 已经预填充每张税表的应纳税额,并标注「节税建议」,您只需审阅与确认。',
+  'hint.taxshield.overview.next':   '点击表格中的「AI 节税建议」一栏,查看 AI 为您发现的合法筹划机会。',
+  'hint.taxshield.workbench.title': '审批流:AI 草稿 → 您审阅 → 客户签字',
+  'hint.taxshield.workbench.body':  '每一行是一份税表草稿。AI_REVIEWING 表示 AI 正在生成,PENDING_HUMAN 表示等您审阅,APPROVED 表示已通过。点击行可进入详情。',
+  'hint.taxshield.workbench.next':  '建议先处理 PENDING_HUMAN(等您审阅)的草稿。',
+
+  // PayFlow (薪流)
+  'hint.payflow.overview.title':    '薪酬中枢:总览',
+  'hint.payflow.overview.body':     '这里展示当月所有公司的应发薪、社保、净支出。SiNova 同时管理薪酬发放、福利、期权 ESOP、工时打卡和多国劳动法。',
+  'hint.payflow.overview.next':     '查看右侧「期权 ESOP 时间轴」,跟踪员工股权激励生命周期。',
+  'hint.payflow.calendar.title':    '薪资日历:多国并行发薪',
+  'hint.payflow.calendar.body':     '每一行是一家子公司的当期工资。AI 会按管辖区的劳动法和社保规则自动计算扣缴项,您只需复核净额。',
+  'hint.payflow.calendar.next':     '点击任一行查看每位员工的薪资明细和扣缴说明。',
+  'hint.payflow.esop.title':        'ESOP 期权:全生命周期',
+  'hint.payflow.esop.body':         'GRANTED → VESTING → EXERCISABLE → EXERCISED → TAXED 五个阶段。SiNova 在每个节点自动计算个人所得税并生成扣缴凭证。',
+  'hint.payflow.esop.next':         '当员工进入 EXERCISABLE 阶段时,AI 会主动提醒并生成行权方案。',
+
+  // CashLoop (收付通)
+  'hint.cashloop.overview.title':   '资金闭环:同时管「收钱」和「付钱」',
+  'hint.cashloop.overview.body':    '上半部分展示应收(AR)与应付(AP),下半部分按到期日和优先级排序。SiNova 用 AI 多语种催收和票据贴现,把收款周期从平均 60 天压到 21 天。',
+  'hint.cashloop.overview.next':    '红色「OVERDUE」是您本期最该处理的项目 — 一键 AI 催收即可。',
+  'hint.cashloop.ar.title':         '应收账款 AR:让客户尽快付钱',
+  'hint.cashloop.ar.body':          '每张发票显示状态(已发出 / 已查看 / 逾期 / 已收款)、客户信用分、以及当前催收阶段。逾期发票会自动出现「AI 催收」和「票据贴现」按钮。',
+  'hint.cashloop.ar.next':          '试试点击逾期发票上的「✉️ AI 催收」按钮,体验智能催收流程。',
+  'hint.cashloop.ap.title':         '应付账款 AP:智能审批与付款',
+  'hint.cashloop.ap.body':          '每张账单经过 OCR 识别(显示置信度)、智能审批链、跨币种付款。SiNova 会自动匹配最佳付款时机以优化现金流。',
+  'hint.cashloop.ap.next':          '点击右上角「+ 上传账单」可以上传一张 PDF 测试 OCR 自动识别。',
+
+  // GovHub (司治)
+  'hint.govhub.overview.title':     '跨境治理中枢:在做什么',
+  'hint.govhub.overview.body':      '左侧是您在全球的公司架构树(SG / HK / US / UK / AE + DAO 实体),右侧是甘特图列出所有进行中的法务变更(注册、董事变更、AGM、章程修订等)。',
+  'hint.govhub.overview.next':      '点击架构树上的任一公司,查看该实体所有合规事件与到期提醒。',
+  'hint.govhub.gantt.title':        '法务进度:像看项目一样看合规',
+  'hint.govhub.gantt.body':         '每一条进度条代表一项法务事件 — INCORPORATION、AGM、SHARE_ALLOTMENT 等。绿色 = 已完成,蓝色 = 进行中,黄色 = 接近截止。',
+  'hint.govhub.gantt.next':         'AGM 接近截止时,SiNova 会自动起草决议并通知董事会签字。',
+
+  // TaxNet (税络)
+  'hint.taxnet.overview.title':     '全球间接税:9 种税制统一引擎',
+  'hint.taxnet.overview.body':      '这里展示您旗下所有公司的间接税申报情况(GST / VAT / Sales Tax / OSS / SST / DST 等)。SiNova 自动按交易币种、客户所在地、产品类型识别正确税率。',
+  'hint.taxnet.overview.next':      '查看「行业基准」可以看到您与同行业同体量企业的税负对比。',
+  'hint.taxnet.map.title':          '全球税务地图',
+  'hint.taxnet.map.body':           '在地图上点击任一管辖区可查看该国当前税率、申报频率、最近的法规变更。系统每月会自动更新最新税率。',
+  'hint.taxnet.map.next':           '当某国税率有变更时,SiNova 会主动提醒并预估对您的影响。',
+
+  // Radar (雷达)
+  'hint.radar.score.title':         '合规风险评分:三维实时模型',
+  'hint.radar.score.body':          '这是 SiNova 的核心引擎。综合评分 = 客户历史 × 40% + 行业基准 × 30% + 监管动态 × 30%。拖动三个滑块体验「不同表现的客户会得到怎样的风险评级」。',
+  'hint.radar.score.next':          '点击右上角「🚀 立即评分」即可看到 AI 的预警结论与建议动作。',
+  'hint.radar.alerts.title':        '主动预警:提前 30/60/90 天',
+  'hint.radar.alerts.body':         '不是等出了事再补救,SiNova 在风险事件发生前 30/60/90 天就给出预警。每关闭一个预警会获得 \\$NOVA Token 奖励 (CRITICAL +200 / ALERT +100 / WATCH +50)。',
+  'hint.radar.alerts.next':         '试试点击任一预警下方的「✅ 关闭并领取奖励」,体验主动合规闭环。',
+
+  // Partner (合伙人)
+  'hint.partner.choose.title':      '选择您的 AI 合伙人',
+  'hint.partner.choose.body':       'SiNova 提供 3 种风格的 AI 合伙人:Alex(沉稳)、Maya(创新)、Dr.Chen(学术)。它们共享同一份数据层,只是表达风格和适用场景不同。',
+  'hint.partner.choose.next':       '点击任一合伙人即可开始对话,稍后可在设置中随时切换。',
+  'hint.partner.chat.title':        'AI 合伙人对话台',
+  'hint.partner.chat.body':         '直接用自然语言问您的 AI 合伙人,例如:「我的 SG 公司今年要交多少税?」「帮我把这张 PDF 发票录入并催收」。后台会并行调度税务、薪酬、政府、风险等多个 Agent。',
+  'hint.partner.chat.next':         '试试下方任一推荐说法,一句话交给 AI 合伙人。',
+
+  // Market (集市)
+  'hint.market.overview.title':     '应用市场:合规生态',
+  'hint.market.overview.body':      '这是司诺的开放应用市场,本地服务商和开发者可以发布合规应用、AI Agent、行业模板。每次安装/订阅按 70/30 分成给开发者。',
+  'hint.market.overview.next':      '左上角的标签可以切换分类(税务 / 薪酬 / 法务 / 数据 / 行业模板)。',
+  'hint.market.dev.title':          '成为 SiNova 开发者',
+  'hint.market.dev.body':           '开发者保留 70% 收入,可访问全部 SiNova API。每月有 SGD 50k 奖金池的开发者大赛。审核通过即可上架。',
+  'hint.market.dev.next':           '点击「📚 开发者文档」开始,或点击「🚀 提交我的应用」上架。',
+
+  // Arena (成就)
+  'hint.arena.score.title':         '合规健康评分 HCS:0-100',
+  'hint.arena.score.body':          'HCS = 合规及时性 ×40% + 财务健康 ×30% + 治理完整 ×20% + 主动改进 ×10%。这是您整体合规表现的综合分数,直接影响保险费率与融资可信度。',
+  'hint.arena.score.next':          '每提升 5 分赠送 50 \\$NOVA · 80+ 解锁合规守护者徽章 · 90+ 进入钻石等级。',
+  'hint.arena.badges.title':        '成就徽章:21+ 项',
+  'hint.arena.badges.body':         '完成关键合规动作即可解锁徽章,例如「连续 12 个月零罚款」「首次跨国架构搭建」「AI 节税突破 10 万」。徽章可在企业主页和招投标资料中展示。',
+  'hint.arena.badges.next':         '点击「查看全部成就」可以看到完整徽章列表与解锁条件。',
+  'hint.arena.lb.title':            '行业排行榜',
+  'hint.arena.lb.body':             '在同业、同地区、同体量的公司中,您的合规表现排在第几?排名 TOP 10% 可获得平台推荐位与媒体曝光机会。',
+  'hint.arena.lb.next':             '排行榜每个赛季(自然季度)结算一次,排名独立、奖励叠加。',
+
+  // Insight (智库)
+  'hint.insight.overview.title':    '行业数据资产化',
+  'hint.insight.overview.body':     '在严格的隐私保护下(k-匿名 + 差分隐私),企业可以查看脱敏后的行业基准数据。例如:同业税负中位数、平均发薪周期、合规罚款分布等。',
+  'hint.insight.overview.next':     '调整下方的隐私参数(k 阈值 / ε 噪声),实时观察数据可用性如何变化。',
+  'hint.insight.budget.title':      '隐私预算:实时 Demo',
+  'hint.insight.budget.body':       'k 越大、ε 越小,数据保护越强,但精度越低。SiNova 默认 k≥10、ε=1.0,既符合 GDPR / PDPA,又能给出有价值的洞察。',
+  'hint.insight.budget.next':       '调到 k=20、ε=0.5 可以看到「更安全但更模糊」的版本对比。',
 };
 
 // ─── English ────────────────────────────────────────────────────────
@@ -2172,6 +2268,121 @@ const en: Dict = {
   'help.cta.openCopilot':       '✨ Open NovaCopilot to ask now',
   'help.cta.tryModule':         'Open this module →',
   'help.cta.backTop':           '↑ Back to top',
+
+  // ─── HelperHint (10-module · in-step ✨ AI assistant explanations) ────
+  'hint.btn.help':              'Click to read the AI assistant tip',
+  'hint.btn.label':             'AI assistant tip',
+  'hint.assistantName':         'NovaCopilot · Guide',
+  'hint.nextLabel':             'Next:',
+  'hint.footer':                '👉 You can ask NovaCopilot at any step — I\'ll handle it for you in one go.',
+
+  // TaxShield
+  'hint.taxshield.overview.title':  'Tax workbench: what you\'re looking at',
+  'hint.taxshield.overview.body':   'This page consolidates every tax filing your companies currently owe (SG / HK / US / UK / AE). The AI has pre-filled the tax payable for each filing and surfaced "tax-saving suggestions" — you only need to review and approve.',
+  'hint.taxshield.overview.next':   'Check the "AI tax-saving suggestion" column to see lawful planning opportunities the AI has spotted for you.',
+  'hint.taxshield.workbench.title': 'Approval flow: AI drafts → you review → client signs',
+  'hint.taxshield.workbench.body':  'Each row is a draft tax filing. AI_REVIEWING means the AI is generating it; PENDING_HUMAN means it\'s waiting for your review; APPROVED means it\'s passed. Click a row for details.',
+  'hint.taxshield.workbench.next':  'Tackle the PENDING_HUMAN drafts first — they\'re waiting on you.',
+
+  // PayFlow
+  'hint.payflow.overview.title':    'Payroll hub: at a glance',
+  'hint.payflow.overview.body':     'Top-of-page numbers show this month\'s gross pay, social-security contributions and net spend across all entities. SiNova handles payroll, benefits, ESOP, time-tracking and multi-country labour law in one place.',
+  'hint.payflow.overview.next':     'See the right-hand "ESOP timeline" panel to track employee equity through its full lifecycle.',
+  'hint.payflow.calendar.title':    'Payroll calendar: parallel runs across countries',
+  'hint.payflow.calendar.body':     'Each row is one entity\'s current pay run. The AI applies the local labour law and social-security rules automatically — you only need to review the net.',
+  'hint.payflow.calendar.next':     'Click any row to drill into per-employee payslips and withholding details.',
+  'hint.payflow.esop.title':        'ESOP: full lifecycle tracking',
+  'hint.payflow.esop.body':         'Five stages: GRANTED → VESTING → EXERCISABLE → EXERCISED → TAXED. SiNova auto-computes income tax at each stage and produces the withholding certificates.',
+  'hint.payflow.esop.next':         'When an employee enters EXERCISABLE, the AI will proactively notify you and propose an exercise plan.',
+
+  // CashLoop
+  'hint.cashloop.overview.title':   'Cash flow loop: manage receivables AND payables',
+  'hint.cashloop.overview.body':    'The top half shows AR (receivables) and AP (payables). SiNova combines multilingual AI dunning and invoice discounting to compress the average collection cycle from 60 days to 21.',
+  'hint.cashloop.overview.next':    'Red OVERDUE items are this period\'s priority — try the one-click AI dunning button.',
+  'hint.cashloop.ar.title':         'AR — get paid faster',
+  'hint.cashloop.ar.body':          'Each invoice shows status (issued / viewed / overdue / collected), customer credit score and current dunning stage. Overdue invoices automatically reveal "AI dunning" and "invoice discount" buttons.',
+  'hint.cashloop.ar.next':          'Click "✉️ AI dunning" on an overdue invoice to try the smart dunning flow.',
+  'hint.cashloop.ap.title':         'AP — smart approval & payment',
+  'hint.cashloop.ap.body':          'Each bill goes through OCR (with confidence score), an approval chain and cross-currency payment. SiNova picks the best payment timing to optimise cash flow.',
+  'hint.cashloop.ap.next':          'Click "+ Upload bill" at the top right to drop a PDF and watch OCR extract the fields.',
+
+  // GovHub
+  'hint.govhub.overview.title':     'Cross-border governance hub: what you\'re seeing',
+  'hint.govhub.overview.body':      'On the left is your global corporate tree (SG / HK / US / UK / AE + DAO entities). On the right is a Gantt chart of every legal change in flight — incorporation, director changes, AGMs, articles amendments, etc.',
+  'hint.govhub.overview.next':      'Click any company in the tree to see all compliance events and upcoming deadlines for that entity.',
+  'hint.govhub.gantt.title':        'Legal timeline: compliance as a project',
+  'hint.govhub.gantt.body':         'Each bar is a legal event — INCORPORATION, AGM, SHARE_ALLOTMENT and so on. Green = done, blue = in progress, amber = nearing deadline.',
+  'hint.govhub.gantt.next':         'When an AGM is approaching, SiNova automatically drafts the resolution and routes it to the board.',
+
+  // TaxNet
+  'hint.taxnet.overview.title':     'Global indirect tax: 9 regimes, one engine',
+  'hint.taxnet.overview.body':      'This shows every indirect-tax filing your companies owe (GST / VAT / Sales Tax / OSS / SST / DST). SiNova picks the right rate automatically, based on transaction currency, customer location and product type.',
+  'hint.taxnet.overview.next':      'Check the "industry benchmark" tab to compare your tax burden against peers of similar size.',
+  'hint.taxnet.map.title':          'Global tax map',
+  'hint.taxnet.map.body':           'Click any jurisdiction on the map to see its current rate, filing frequency and recent regulatory changes. Rates are refreshed monthly.',
+  'hint.taxnet.map.next':           'When a country\'s rate changes, SiNova proactively notifies you and estimates the impact.',
+
+  // Radar
+  'hint.radar.score.title':         'Compliance risk scoring: live 3-dim model',
+  'hint.radar.score.body':          'This is SiNova\'s core engine. Composite = customer history × 40% + industry benchmark × 30% + regulatory shift × 30%. Drag the three sliders to see how different profiles get scored.',
+  'hint.radar.score.next':          'Click "🚀 Score now" at the top right to view the AI\'s alert verdict and recommended actions.',
+  'hint.radar.alerts.title':        'Proactive alerts: 30 / 60 / 90 days ahead',
+  'hint.radar.alerts.body':         'Instead of reacting to penalties, SiNova warns you 30 / 60 / 90 days before a risk event. Closing an alert earns \\$NOVA Tokens (CRITICAL +200 / ALERT +100 / WATCH +50).',
+  'hint.radar.alerts.next':         'Try the "✅ Close & claim" button on any alert to experience the proactive compliance loop.',
+
+  // Partner
+  'hint.partner.choose.title':      'Choose your AI Partner',
+  'hint.partner.choose.body':       'SiNova offers 3 personas — Alex (steady), Maya (energetic), Dr. Chen (academic). They share the same data layer; only the tone and audience fit differs.',
+  'hint.partner.choose.next':       'Click any partner to start chatting — you can switch any time in Settings.',
+  'hint.partner.chat.title':        'AI Partner chat',
+  'hint.partner.chat.body':         'Ask your AI partner in natural language, e.g. "How much tax does my SG company owe this year?" or "Ingest this PDF invoice and chase payment". Behind the scenes, multiple Agents (tax / payroll / gov / risk / market) run in parallel.',
+  'hint.partner.chat.next':         'Try any of the suggested prompts below — one sentence and you\'re done.',
+
+  // Market
+  'hint.market.overview.title':     'App marketplace: the compliance ecosystem',
+  'hint.market.overview.body':      'This is SiNova\'s open marketplace where local providers and developers publish compliance apps, AI Agents and industry templates. Each install / subscription splits 70/30 in favour of the developer.',
+  'hint.market.overview.next':      'Use the tabs at the top to switch categories (Tax / Payroll / Legal / Data / Templates).',
+  'hint.market.dev.title':          'Become a SiNova developer',
+  'hint.market.dev.body':           'Developers keep 70% revenue and can access every SiNova API. Monthly developer challenges with an SGD 50k prize pool. Apps go live after sandbox review.',
+  'hint.market.dev.next':           'Click "📚 Developer docs" to start, or "🚀 Submit my app" to publish.',
+
+  // Arena
+  'hint.arena.score.title':         'HCS Compliance Health Score: 0–100',
+  'hint.arena.score.body':          'HCS = punctuality × 40% + finance × 30% + governance × 20% + improvement × 10%. It\'s the composite score of your compliance posture and directly affects insurance pricing and lender confidence.',
+  'hint.arena.score.next':          'Every +5 = 50 \\$NOVA · 80+ unlocks the Compliance Guardian badge · 90+ reaches the Diamond tier.',
+  'hint.arena.badges.title':        'Achievement badges: 21+',
+  'hint.arena.badges.body':         'Unlock badges by completing key compliance milestones — e.g. "12 consecutive zero-penalty months", "first cross-border structure", "AI tax savings break SGD 100k". Badges show on your company profile and procurement docs.',
+  'hint.arena.badges.next':         'Click "View all achievements" for the full list and unlock criteria.',
+  'hint.arena.lb.title':            'Industry leaderboard',
+  'hint.arena.lb.body':             'How does your compliance posture rank among peers of similar industry, geography and size? Top 10% gets featured placement and PR opportunities on the platform.',
+  'hint.arena.lb.next':             'The leaderboard resets every quarter — rankings are independent and rewards stack.',
+
+  // Insight
+  'hint.insight.overview.title':    'Industry data productisation',
+  'hint.insight.overview.body':     'Under strict privacy controls (k-anonymity + differential privacy), companies can view anonymised industry benchmarks — peer median tax burden, average payment cycle, fine distribution and more.',
+  'hint.insight.overview.next':     'Tweak the privacy parameters below (k threshold / ε noise) to watch utility change in real time.',
+  'hint.insight.budget.title':      'Privacy budget: live demo',
+  'hint.insight.budget.body':       'Larger k and smaller ε mean stronger protection but lower utility. SiNova defaults to k≥10 and ε=1.0, which satisfies GDPR / PDPA while still giving valuable insights.',
+  'hint.insight.budget.next':       'Try k=20 and ε=0.5 to see how a "safer but blurrier" version compares.',
+
+  // ─── Demo toasts (action feedback) ─────────────────────────────────
+  'taxshield.toast.opened':         'Opened {name} · filings, working papers, and AI tax-saving suggestions are loaded.',
+  'payflow.toast.runOpened':        'Loaded payroll for {name} · period {period} · IIT calc and CPF breakdown ready.',
+  'payflow.toast.esopOpened':       'Opened ESOP record for {name} · current status: {status}.',
+  'cashloop.toast.aiDun':           'AI dunning playbook generated for {customer} · email draft and phone script are ready.',
+  'cashloop.toast.discount':        'Invoice {invoiceNo} added to factoring pool · funds expected within 24h.',
+  'cashloop.toast.invoiceCreated':  'New AR invoice draft created · one-click send to customer & tax authority.',
+  'cashloop.toast.billUploaded':    'AP bill uploaded · OCR has captured amount, tax ID and payment terms.',
+  'govhub.toast.entityOpened':      'Opened {name} · governance score {hcs}/100 · structure chart rendered.',
+  'taxnet.toast.regimeOpened':      'Switched to {code} regime · {n} local filing templates loaded.',
+  'taxnet.toast.filingOpened':      'Opened {name} · period {period} · form and working papers auto-matched.',
+  'market.toast.install':           'Install flow started for "{name}" · once authorised it plugs straight into your SiNova workspace.',
+  'market.toast.docs':              'Developer docs opened in a new window · includes OpenAPI, SDKs and billing.',
+  'market.toast.submit':            'App submission flow opened · once approved you go live · platform/developer revenue share is 30/70.',
+  'insight.toast.apiApplied':       'Data API request submitted · once the privacy review passes, access is granted within 1 business day.',
+  'insight.toast.buyReport':        'Added to cart: "{title}" · once paid the PDF and data API ship instantly.',
+  'insight.toast.apiAccess':        'API access token generated for "{title}" · quotas and sample calls are in the developer console.',
+  'insight.toast.share':            'Thanks for contributing anonymised data · NovaToken reward credited to your account.',
 };
 
 const DICTS: Record<Lang, Dict> = { zh, en };

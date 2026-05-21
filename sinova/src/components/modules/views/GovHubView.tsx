@@ -2,6 +2,8 @@
 import { fmtDate, relativeDays } from '@/lib/utils';
 import { JURISDICTION_META, type Jurisdiction } from '@/lib/enums';
 import { useI18n } from '@/i18n/client';
+import { HelperHint } from '../HelperHint';
+import { useDemoToast } from '../useDemoToast';
 
 const STATUS_COLORS: Record<string, string> = {
   INITIATED:        'bg-slate-500/20 text-slate-300',
@@ -14,6 +16,7 @@ const STATUS_COLORS: Record<string, string> = {
 
 export function GovHubView({ actions, entities }: any) {
   const { t } = useI18n();
+  const toast = useDemoToast();
   // Group entities by jurisdiction for the world architecture map
   const byJurisdiction: Record<string, any[]> = {};
   for (const e of entities) {
@@ -25,7 +28,10 @@ export function GovHubView({ actions, entities }: any) {
       {/* Global architecture (tree) */}
       <div className="rounded-2xl border border-white/10 bg-ink-900/50 p-5">
         <div className="mb-3 flex items-center justify-between">
-          <div className="font-semibold">{t('govhub.tree.title')}</div>
+          <div className="flex items-center gap-2">
+            <div className="font-semibold">{t('govhub.tree.title')}</div>
+            <HelperHint id="govhub.overview" />
+          </div>
           <div className="text-xs text-slate-400">{t('govhub.tree.entityCount', { n: entities.length })}</div>
         </div>
         <div className="grid gap-3 md:grid-cols-3 lg:grid-cols-5">
@@ -42,7 +48,9 @@ export function GovHubView({ actions, entities }: any) {
                 <div className="mt-3 space-y-1">
                   {list.length === 0 && <div className="text-xs text-slate-500">{t('govhub.tree.empty')}</div>}
                   {list.map((e: any) => (
-                    <div key={e.id} className="rounded-lg bg-white/5 px-2 py-1.5 text-xs">
+                    <div key={e.id}
+                         onClick={() => toast(t('govhub.toast.entityOpened', { name: e.legalName, hcs: e.hcs }))}
+                         className="cursor-pointer rounded-lg bg-white/5 px-2 py-1.5 text-xs hover:bg-white/10">
                       <div className="truncate text-slate-200">{e.legalName}</div>
                       <div className="flex items-center justify-between text-[10px] text-slate-500">
                         <span>{e.kind}</span>
@@ -59,7 +67,12 @@ export function GovHubView({ actions, entities }: any) {
 
       {/* Variation tracker (Gantt-style) */}
       <div className="rounded-2xl border border-white/10 bg-ink-900/50">
-        <div className="border-b border-white/5 px-4 py-3 font-semibold">{t('govhub.gantt')}</div>
+        <div className="flex items-center justify-between border-b border-white/5 px-4 py-3">
+          <div className="flex items-center gap-2">
+            <div className="font-semibold">{t('govhub.gantt')}</div>
+            <HelperHint id="govhub.gantt" />
+          </div>
+        </div>
         <div className="divide-y divide-white/5">
           {actions.map((a: any) => {
             const j = JURISDICTION_META[a.jurisdiction as Jurisdiction];

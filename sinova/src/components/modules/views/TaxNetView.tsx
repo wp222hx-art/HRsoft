@@ -1,6 +1,8 @@
 'use client';
 import { fmtDate, formatMoney, relativeDays } from '@/lib/utils';
 import { useI18n } from '@/i18n/client';
+import { HelperHint } from '../HelperHint';
+import { useDemoToast } from '../useDemoToast';
 
 const STATUS_COLORS: Record<string, string> = {
   COLLECTING: 'bg-nova-500/20 text-nova-300',
@@ -17,11 +19,16 @@ const REGIME_CODES = Object.keys(REGIME_FLAGS);
 
 export function TaxNetView({ vats }: any) {
   const { t } = useI18n();
+  const toast = useDemoToast();
   const totalNet  = vats.reduce((s: number, v: any) => s + v.netPayable, 0);
   const exceptions = vats.reduce((s: number, v: any) => s + v.exceptions, 0);
 
   return (
     <div className="space-y-5">
+      <div className="flex items-center gap-3">
+        <HelperHint id="taxnet.overview" />
+      </div>
+
       <div className="grid gap-3 md:grid-cols-4">
         <Stat label={t('taxnet.stat.tracking')}   value={String(vats.length)}      accent="text-nova-300" />
         <Stat label={t('taxnet.stat.netTax')}     value={formatMoney(totalNet)}    accent="text-amber-300" />
@@ -31,7 +38,10 @@ export function TaxNetView({ vats }: any) {
 
       {/* World map style strip */}
       <div className="rounded-2xl border border-white/10 bg-ink-900/50 p-4">
-        <div className="mb-3 font-semibold">{t('taxnet.map.title2')}</div>
+        <div className="mb-3 flex items-center gap-2">
+          <div className="font-semibold">{t('taxnet.map.title2')}</div>
+          <HelperHint id="taxnet.map" />
+        </div>
         <div className="grid gap-2 md:grid-cols-3 lg:grid-cols-5">
           {REGIME_CODES.map((code) => {
             const flag = REGIME_FLAGS[code];
@@ -39,7 +49,9 @@ export function TaxNetView({ vats }: any) {
             const exception = found.some((v: any) => v.status === 'EXCEPTION');
             const filing = found.some((v: any) => v.status === 'FILING');
             return (
-              <div key={code} className={`rounded-xl border p-3 ${
+              <div key={code}
+                   onClick={() => toast(t('taxnet.toast.regimeOpened', { code: t(`taxnet.regime.${code}`), n: found.length }))}
+                   className={`cursor-pointer rounded-xl border p-3 hover:bg-white/[0.05] ${
                 exception ? 'border-red-500/40 bg-red-500/5'
                 : filing ? 'border-amber-500/40 bg-amber-500/5'
                 : 'border-white/10 bg-white/[0.02]'}`}>
@@ -75,7 +87,9 @@ export function TaxNetView({ vats }: any) {
             {vats.map((v: any) => {
               const flag = REGIME_FLAGS[v.regime] || '·';
               return (
-                <tr key={v.id} className="border-t border-white/5 hover:bg-white/[0.02]">
+                <tr key={v.id}
+                    onClick={() => toast(t('taxnet.toast.filingOpened', { name: v.entity?.legalName || '', period: v.period }))}
+                    className="cursor-pointer border-t border-white/5 hover:bg-white/[0.02]">
                   <td className="px-4 py-3">{v.entity?.legalName}</td>
                   <td className="px-4 py-3">{flag} {t(`taxnet.regime.${v.regime}`)}</td>
                   <td className="px-4 py-3 font-mono text-slate-300">{v.period}</td>

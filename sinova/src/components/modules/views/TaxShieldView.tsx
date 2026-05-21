@@ -2,6 +2,8 @@
 import { JURISDICTION_META, type Jurisdiction } from '@/lib/enums';
 import { fmtDate, formatMoney, relativeDays } from '@/lib/utils';
 import { useI18n } from '@/i18n/client';
+import { HelperHint } from '../HelperHint';
+import { useDemoToast } from '../useDemoToast';
 
 const STATUS_COLORS: Record<string, string> = {
   DRAFT:         'bg-slate-500/20 text-slate-300',
@@ -15,6 +17,7 @@ const STATUS_COLORS: Record<string, string> = {
 
 export function TaxShieldView({ filings }: any) {
   const { t } = useI18n();
+  const toast = useDemoToast();
   const totalTax = filings.reduce((s: number, f: any) => s + f.taxPayable, 0);
   const totalSaving = filings.filter((f: any) => f.aiSavingHint).reduce((s: number, f: any) => {
     const m = f.aiSavingHint?.match(/(\d{1,3}(?:[,_]?\d{3})+|\d+)/);
@@ -23,6 +26,10 @@ export function TaxShieldView({ filings }: any) {
 
   return (
     <div className="space-y-5">
+      <div className="flex items-center gap-3">
+        <HelperHint id="taxshield.overview" />
+      </div>
+
       <div className="grid gap-3 md:grid-cols-4">
         <Stat label={t('taxshield.stat.tracking')}    value={String(filings.length)} accent="text-nova-300" />
         <Stat label={t('taxshield.stat.totalTax')}    value={formatMoney(totalTax)}   accent="text-slate-100" />
@@ -32,7 +39,10 @@ export function TaxShieldView({ filings }: any) {
 
       <div className="rounded-2xl border border-white/10 bg-ink-900/50 overflow-hidden">
         <div className="flex items-center justify-between border-b border-white/5 px-4 py-3">
-          <div className="font-semibold">{t('taxshield.workbench')}</div>
+          <div className="flex items-center gap-2">
+            <div className="font-semibold">{t('taxshield.workbench')}</div>
+            <HelperHint id="taxshield.workbench" />
+          </div>
           <div className="text-xs text-slate-400">{t('taxshield.workbenchHint')}</div>
         </div>
         <table className="w-full text-sm">
@@ -51,7 +61,9 @@ export function TaxShieldView({ filings }: any) {
             {filings.map((f: any) => {
               const j = JURISDICTION_META[f.jurisdiction as Jurisdiction];
               return (
-                <tr key={f.id} className="border-t border-white/5 hover:bg-white/[0.02]">
+                <tr key={f.id}
+                    onClick={() => toast(t('taxshield.toast.opened', { name: f.entity?.legalName || '' }))}
+                    className="cursor-pointer border-t border-white/5 hover:bg-white/[0.02]">
                   <td className="px-4 py-3">
                     <div className="font-medium">{f.entity?.legalName}</div>
                     <div className="text-xs text-slate-400">{f.formType} · FY{f.taxYear}</div>

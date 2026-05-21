@@ -2,6 +2,8 @@
 // CashLoop — AR + AP dual closed-loop. The flagship "Copi 缺口" module.
 import { fmtDate, formatMoney, relativeDays } from '@/lib/utils';
 import { useI18n } from '@/i18n/client';
+import { HelperHint } from '../HelperHint';
+import { useDemoToast } from '../useDemoToast';
 
 const INV_COLOR: Record<string, string> = {
   DRAFT:     'bg-slate-500/20 text-slate-300',
@@ -23,6 +25,7 @@ const BILL_COLOR: Record<string, string> = {
 
 export function CashLoopView({ invoices, bills }: any) {
   const { t } = useI18n();
+  const toast = useDemoToast();
   const arOpen      = invoices.filter((i: any) => !['COLLECTED','BAD_DEBT'].includes(i.status));
   const arOverdue   = invoices.filter((i: any) => i.status === 'OVERDUE');
   const arInflow    = arOpen.reduce((s: number, i: any) => s + i.amount, 0);
@@ -33,6 +36,10 @@ export function CashLoopView({ invoices, bills }: any) {
 
   return (
     <div className="space-y-5">
+      <div className="flex items-center gap-3">
+        <HelperHint id="cashloop.overview" />
+      </div>
+
       {/* Cash dashboard */}
       <div className="grid gap-3 md:grid-cols-4">
         <Stat label={t('cashloop.stat.arOpen')}    value={formatMoney(arInflow)}     accent="text-emerald-300" hint={`${arOpen.length} ${t('cashloop.stat.unsettled')}`} />
@@ -46,10 +53,13 @@ export function CashLoopView({ invoices, bills }: any) {
         <section className="rounded-2xl border border-white/10 bg-ink-900/50">
           <div className="flex items-center justify-between border-b border-white/5 px-4 py-3">
             <div>
-              <div className="font-semibold">{t('cashloop.ar.titleFull')}</div>
+              <div className="flex items-center gap-2">
+                <div className="font-semibold">{t('cashloop.ar.titleFull')}</div>
+                <HelperHint id="cashloop.ar" />
+              </div>
               <div className="text-[11px] text-slate-400">{t('cashloop.ar.subtitle')}</div>
             </div>
-            <button className="nova-btn-outline text-xs">{t('cashloop.ar.create')}</button>
+            <button onClick={() => toast(t('cashloop.toast.invoiceCreated'))} className="nova-btn-outline text-xs">{t('cashloop.ar.create')}</button>
           </div>
           <div className="divide-y divide-white/5">
             {invoices.map((i: any) => (
@@ -70,10 +80,14 @@ export function CashLoopView({ invoices, bills }: any) {
                 </div>
                 {i.status === 'OVERDUE' && (
                   <div className="mt-2 flex items-center gap-2">
-                    <button className="rounded-lg bg-nova-500/20 px-2 py-1 text-[11px] text-nova-200 hover:bg-nova-500/30">
+                    <button
+                      onClick={() => toast(t('cashloop.toast.aiDun', { customer: i.customer }), 'info')}
+                      className="rounded-lg bg-nova-500/20 px-2 py-1 text-[11px] text-nova-200 hover:bg-nova-500/30">
                       {t('cashloop.btn.aiDun', { t: ['','0','7','14','30'][i.dunningStage] || '?' })}
                     </button>
-                    <button className="rounded-lg bg-gold-500/20 px-2 py-1 text-[11px] text-gold-300 hover:bg-gold-500/30">
+                    <button
+                      onClick={() => toast(t('cashloop.toast.discount', { invoiceNo: i.invoiceNo }), 'info')}
+                      className="rounded-lg bg-gold-500/20 px-2 py-1 text-[11px] text-gold-300 hover:bg-gold-500/30">
                       {t('cashloop.btn.discount')}
                     </button>
                   </div>
@@ -87,10 +101,13 @@ export function CashLoopView({ invoices, bills }: any) {
         <section className="rounded-2xl border border-white/10 bg-ink-900/50">
           <div className="flex items-center justify-between border-b border-white/5 px-4 py-3">
             <div>
-              <div className="font-semibold">{t('cashloop.ap.titleFull')}</div>
+              <div className="flex items-center gap-2">
+                <div className="font-semibold">{t('cashloop.ap.titleFull')}</div>
+                <HelperHint id="cashloop.ap" />
+              </div>
               <div className="text-[11px] text-slate-400">{t('cashloop.ap.subtitle2')}</div>
             </div>
-            <button className="nova-btn-outline text-xs">{t('cashloop.ap.upload2')}</button>
+            <button onClick={() => toast(t('cashloop.toast.billUploaded'), 'info')} className="nova-btn-outline text-xs">{t('cashloop.ap.upload2')}</button>
           </div>
           <div className="divide-y divide-white/5">
             {bills.map((b: any) => (

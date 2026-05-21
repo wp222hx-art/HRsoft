@@ -2,6 +2,8 @@
 import { fmtDate, formatMoney } from '@/lib/utils';
 import { JURISDICTION_META, type Jurisdiction } from '@/lib/enums';
 import { useI18n } from '@/i18n/client';
+import { HelperHint } from '../HelperHint';
+import { useDemoToast } from '../useDemoToast';
 
 const ESOP_COLOR: Record<string, string> = {
   GRANTED:     'bg-slate-500/20 text-slate-300',
@@ -13,6 +15,7 @@ const ESOP_COLOR: Record<string, string> = {
 
 export function PayFlowView({ runs, esops }: any) {
   const { t } = useI18n();
+  const toast = useDemoToast();
   const totalGross = runs.reduce((s: number, r: any) => s + r.grossTotal, 0);
   const totalNet   = runs.reduce((s: number, r: any) => s + r.netTotal,   0);
   const totalCpf   = runs.reduce((s: number, r: any) => s + r.cpfTotal,   0);
@@ -20,6 +23,10 @@ export function PayFlowView({ runs, esops }: any) {
 
   return (
     <div className="space-y-5">
+      <div className="flex items-center gap-3">
+        <HelperHint id="payflow.overview" />
+      </div>
+
       <div className="grid gap-3 md:grid-cols-4">
         <Stat label={t('payflow.stat.heads')} value={String(totalHead)}      accent="text-nova-300" />
         <Stat label={t('payflow.stat.gross')} value={formatMoney(totalGross)} accent="text-slate-100" />
@@ -29,12 +36,19 @@ export function PayFlowView({ runs, esops }: any) {
 
       <div className="grid gap-5 lg:grid-cols-2">
         <div className="rounded-2xl border border-white/10 bg-ink-900/50">
-          <div className="border-b border-white/5 px-4 py-3 font-semibold">{t('payflow.calendar')}</div>
+          <div className="flex items-center justify-between border-b border-white/5 px-4 py-3">
+            <div className="flex items-center gap-2">
+              <div className="font-semibold">{t('payflow.calendar')}</div>
+              <HelperHint id="payflow.calendar" />
+            </div>
+          </div>
           <div className="divide-y divide-white/5">
             {runs.map((r: any) => {
               const j = JURISDICTION_META[r.jurisdiction as Jurisdiction];
               return (
-                <div key={r.id} className="flex items-center justify-between px-4 py-3 text-sm">
+                <div key={r.id}
+                     onClick={() => toast(t('payflow.toast.runOpened', { name: r.entity?.legalName || '', period: r.period }))}
+                     className="flex cursor-pointer items-center justify-between px-4 py-3 text-sm hover:bg-white/[0.03]">
                   <div>
                     <div className="font-medium">{r.entity?.legalName}</div>
                     <div className="text-xs text-slate-400">
@@ -52,10 +66,17 @@ export function PayFlowView({ runs, esops }: any) {
         </div>
 
         <div className="rounded-2xl border border-white/10 bg-ink-900/50">
-          <div className="border-b border-white/5 px-4 py-3 font-semibold">{t('payflow.esopBoard')}</div>
+          <div className="flex items-center justify-between border-b border-white/5 px-4 py-3">
+            <div className="flex items-center gap-2">
+              <div className="font-semibold">{t('payflow.esopBoard')}</div>
+              <HelperHint id="payflow.esop" />
+            </div>
+          </div>
           <div className="divide-y divide-white/5">
             {esops.map((g: any) => (
-              <div key={g.id} className="flex items-center justify-between px-4 py-3 text-sm">
+              <div key={g.id}
+                   onClick={() => toast(t('payflow.toast.esopOpened', { name: g.employee, status: g.status }))}
+                   className="flex cursor-pointer items-center justify-between px-4 py-3 text-sm hover:bg-white/[0.03]">
                 <div>
                   <div className="font-medium">{g.employee}</div>
                   <div className="text-xs text-slate-400">

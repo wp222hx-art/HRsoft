@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { PERSONA_PROFILES, type Persona } from '@/lib/enums';
 import { fmtDate } from '@/lib/utils';
 import { useI18n } from '@/i18n/client';
+import { HelperHint } from '../HelperHint';
 
 type Chat = { id: string; createdAt: string; title?: string | null; persona?: string | null; messages: { id: string; role: string; content: string }[] };
 
@@ -46,7 +47,10 @@ export function PartnerView({ chats: initial }: { chats: Chat[] }) {
     <div className="space-y-5">
       {/* ── Persona switcher ── */}
       <section className="rounded-2xl border border-white/10 bg-ink-900/50 p-4">
-        <div className="text-sm font-semibold">{t('partner.shell.title')}</div>
+        <div className="flex items-center gap-2">
+          <div className="text-sm font-semibold">{t('partner.shell.title')}</div>
+          <HelperHint id="partner.choose" />
+        </div>
         <div className="mt-1 text-[11px] text-slate-400">
           {t('partner.shell.subtitle')}
         </div>
@@ -85,7 +89,10 @@ export function PartnerView({ chats: initial }: { chats: Chat[] }) {
           <div className="flex items-center gap-2">
             <span className="text-2xl">{profile.emoji}</span>
             <div>
-              <div className="font-semibold">{t('partner.chat.with', { name: profile.name })}</div>
+              <div className="flex items-center gap-2">
+                <div className="font-semibold">{t('partner.chat.with', { name: profile.name })}</div>
+                <HelperHint id="partner.chat" />
+              </div>
               <div className="text-[11px] text-slate-400">{t(`persona.${persona}.tagline`)}</div>
             </div>
           </div>
