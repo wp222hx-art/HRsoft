@@ -9,7 +9,7 @@ import { PERSONA_PROFILES, type Persona } from '@/lib/enums';
 import { useI18n, LangSwitchLight } from '@/i18n/client';
 import {
   Home, MessageSquare, Receipt, Wallet, Globe, Shield, Trophy, Settings,
-  Sparkles, ChevronDown, LogOut, ShoppingBag, BarChart3,
+  Sparkles, ChevronDown, LogOut, ShoppingBag, BarChart3, HelpCircle,
 } from 'lucide-react';
 
 const NAV_ITEMS = [
@@ -22,6 +22,7 @@ const NAV_ITEMS = [
   { href: '/sme/modules/market',   key: 'sme.nav.market',   icon: ShoppingBag },
   { href: '/sme/modules/arena',    key: 'sme.nav.arena',    icon: Trophy },
   { href: '/sme/modules/insight',  key: 'sme.nav.insight',  icon: BarChart3 },
+  { href: '/sme/help',             key: 'help.nav',         icon: HelpCircle },
   { href: '/sme/settings',         key: 'sme.nav.settings', icon: Settings },
 ] as const;
 
@@ -91,6 +92,13 @@ export function SmeShell({
 
           <div className="flex items-center gap-2">
             <LangSwitchLight />
+            <Link
+              href="/sme/help"
+              title={t('help.nav')}
+              className="rounded-full p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-800"
+            >
+              <HelpCircle className="h-4 w-4" />
+            </Link>
             <div className="hidden items-center gap-1 rounded-full border border-gold-300/60 bg-gold-50 px-2.5 py-1 text-xs text-gold-700 sm:flex">
               <Sparkles className="h-3 w-3" /> {user.novaTokens.toLocaleString()} $NOVA
             </div>

@@ -8,7 +8,7 @@ import { CopilotDock } from './CopilotDock';
 import { useI18n, LangSwitch } from '@/i18n/client';
 import {
   Home, Users, ListChecks, Radar, Store, FileBox, Trophy, Settings,
-  Search, Bell, ChevronDown, LogOut, Sparkles,
+  Search, Bell, ChevronDown, LogOut, Sparkles, HelpCircle,
 } from 'lucide-react';
 
 const NAV_ITEMS = [
@@ -19,6 +19,7 @@ const NAV_ITEMS = [
   { href: '/pro/modules/market',  key: 'pro.nav.market',   icon: Store },
   { href: '/pro/vault',           key: 'pro.nav.vault',    icon: FileBox },
   { href: '/pro/modules/arena',   key: 'pro.nav.arena',    icon: Trophy },
+  { href: '/pro/help',            key: 'help.nav',         icon: HelpCircle },
   { href: '/pro/settings',        key: 'pro.nav.settings', icon: Settings },
 ] as const;
 
@@ -87,6 +88,13 @@ export function ProShell({
               <kbd className="rounded bg-white/10 px-1.5 py-0.5 text-[10px] text-slate-300">⌘K</kbd>
             </div>
             <LangSwitch />
+            <Link
+              href="/pro/help"
+              title={t('help.nav')}
+              className="rounded-lg p-2 text-slate-300 hover:bg-white/5 hover:text-white"
+            >
+              <HelpCircle className="h-4 w-4" />
+            </Link>
             <button className="relative rounded-lg p-2 hover:bg-white/5">
               <Bell className="h-4 w-4 text-slate-300" />
               <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-risk-red"></span>

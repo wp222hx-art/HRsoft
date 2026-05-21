@@ -962,6 +962,148 @@ const zh: Dict = {
   // ModuleRenderer
   'moduleRender.loadFailed':    '加载失败: {e}',
   'moduleRender.unknown':       'Unknown module.',
+
+  // ─── Help / 帮助文档 ──────────────────────────────────────────────
+  'help.nav':                   '帮助文档',
+  'help.title':                 '📚 SiNova 使用指南',
+  'help.subtitle':              '5 分钟上手 · 全模块详解 · AI 合伙人最佳实践',
+  'help.searchPlaceholder':     '搜索功能、模块、快捷操作…',
+  'help.toc':                   '目录',
+  'help.lastUpdated':           '最近更新:2025-05',
+  'help.printBtn':              '🖨 打印此页',
+
+  // Section: Welcome / 欢迎
+  'help.s.welcome.title':       '👋 欢迎使用 SiNova',
+  'help.s.welcome.body':        'SiNova(司诺)是面向全球化中小企业(SME)与专业服务人员(Pro)的 下一代全球合规 AI 平台。我们用 10 个核心模块 + AI 合伙人,把"加班合规"变成"打怪升级",让税务、薪酬、现金流、政府事项、跨境合规这些最痛的事情,变成一键完成的日常。',
+  'help.s.welcome.audience.title': '谁在用 SiNova?',
+  'help.s.welcome.audience.pro': '👔 Pro 门户 · 专业服务人员',
+  'help.s.welcome.audience.proBody': '会计师 / 律师 / 税务师 / 公司秘书 / 移民顾问 / 估值师 / IPO 顾问。多客户、多管辖区批量管理,Radar 自动预警,Vault 链上存证。',
+  'help.s.welcome.audience.sme': '🏪 SME 门户 · 中小企业',
+  'help.s.welcome.audience.smeBody': '电商卖家 / SaaS / 跨境贸易 / 加密企业 / 餐厅连锁 / 制造业 / 服务业。AI 合伙人 Maya/Alex/Nova 7×24 小时陪伴,把复杂合规翻译成大白话。',
+
+  // Section: Getting Started / 快速上手
+  'help.s.start.title':         '🚀 5 分钟快速上手',
+  'help.s.start.step1.title':   '第 1 步:注册账号',
+  'help.s.start.step1.body':    '点击右上角 注册 → 选择门户(Pro / SME)→ 选择身份类型 → 选择主管辖区(SG/HK/US/UK/MY/AE/AU/EU)→ SME 用户还需挑选 AI 合伙人(Maya 知性 / Alex 干练 / Nova 极客)。注册成功立刻送 100 \\$NOVA Token。',
+  'help.s.start.step2.title':   '第 2 步:首页快速导航',
+  'help.s.start.step2.body':    'Pro 用户:首页展示客户中枢、待办任务、HCS 健康分、月度排名。SME 用户:首页展示今日待办、AI 合伙人寄语、连胜天数、\\$NOVA 余额。点击顶部模块标签或左侧侧边栏即可进入任意模块。',
+  'help.s.start.step3.title':   '第 3 步:与 AI Copilot 对话',
+  'help.s.start.step3.body':    '点击右下角悬浮按钮 ✨ NovaCopilot(Pro)或 你的 AI 合伙人头像(SME)即可对话。它能并行调用税务、薪酬、政府、风险、市场等多个 Agent,用一句话帮你完成原本要跑 3 个网站的事。',
+  'help.s.start.step4.title':   '第 4 步:切换语言 / 主题',
+  'help.s.start.step4.body':    '右上角 🌐 中 / EN 一键切换中英文,选择会保存 1 年。Pro 门户为深色专业风,SME 门户为温暖友好风,系统会根据账号类型自动选择。',
+
+  // Section: Modules / 10 大模块
+  'help.s.modules.title':       '🧩 10 大模块详解',
+  'help.s.modules.subtitle':    '点击任意模块直接跳转',
+
+  'help.mod.taxshield.title':   '🛡 TaxShield · 税盾',
+  'help.mod.taxshield.what':    '做什么:全球企业所得税自动节税 + 申报。OCR 上传财务报表 → AI 找出可抵扣项 → 一键生成申报表。',
+  'help.mod.taxshield.who':     '适合:Pro 多客户批量报税 / SME 自助合规。',
+  'help.mod.taxshield.tip':     '小窍门:在工作台开启"vs CoPi"对比模式,可看到 SiNova 比传统软件多省的金额。',
+
+  'help.mod.payflow.title':     '💸 PayFlow · 薪流',
+  'help.mod.payflow.what':      '做什么:跨境薪酬 + ESOP 管理 + 社保公积金一键发放。日历视图看清每月待发,ESOP 自动 vesting + 税务计算。',
+  'help.mod.payflow.who':       '适合:有海外员工 / 期权激励 / 多币种工资单的企业。',
+  'help.mod.payflow.tip':       '小窍门:把 ESOP 板块拖到首页固定,行权季节自动提醒税务影响。',
+
+  'help.mod.cashloop.title':    '🔁 CashLoop · 现金环',
+  'help.mod.cashloop.what':     '做什么:AR 应收 + AP 应付管理。OCR 自动识别发票,AI 智能催收(可生成多语言、多语气催收邮件),早付折扣建议。',
+  'help.mod.cashloop.who':      '适合:跨境电商、SaaS、贸易公司,被现金流卡脖子的所有 SME。',
+  'help.mod.cashloop.tip':      '小窍门:开启 AI 自动催收后,平均回款周期可缩短 14 天。',
+
+  'help.mod.govhub.title':      '🏛 GovHub · 政府事项',
+  'help.mod.govhub.what':       '做什么:全球政府事务一站式办理。注册公司、年度申报、变更登记、注销、移民身份办理 — 全可视化甘特图追踪。',
+  'help.mod.govhub.who':        '适合:多国扩张、跨境 IPO、移民身份规划的企业与个人。',
+  'help.mod.govhub.tip':        '小窍门:树状视图按管辖区分组,甘特图按时间线追踪每个事项的当前阶段。',
+
+  'help.mod.taxnet.title':      '🌐 TaxNet · 税网',
+  'help.mod.taxnet.what':       '做什么:跨境间接税(GST/VAT/Sales Tax/DST)统一台账。一张地图看清你在每个国家的税务状态。',
+  'help.mod.taxnet.who':        '适合:跨境电商、SaaS 订阅、数字服务商。',
+  'help.mod.taxnet.tip':        '小窍门:某地区销售额突破当地起征点时会自动预警,避免漏报罚款。',
+
+  'help.mod.radar.title':       '📡 Radar · 雷达',
+  'help.mod.radar.what':        '做什么:7×24 实时合规风险监控。4 维度评分(及时性 40% + 财务 30% + 治理 20% + 改进 10%)。可拖动权重做敏感性分析。',
+  'help.mod.radar.who':         '适合:所有 SiNova 用户(默认开启)。',
+  'help.mod.radar.tip':         '小窍门:把"风险等级 CRITICAL"事项设为推送通知,新预警 2 分钟内到手机。',
+
+  'help.mod.partner.title':     '🤝 Partner · 合伙人',
+  'help.mod.partner.what':      '做什么:你的 AI 合伙人(Maya 知性顾问 / Alex 干练执行 / Nova 极客效率)。可换 Persona,可保存对话历史,可调用所有模块。',
+  'help.mod.partner.who':       '适合:SME 用户首选入口(Pro 用户用 NovaCopilot)。',
+  'help.mod.partner.tip':       '小窍门:试试问"我下个月该交多少税?"或"帮我催第 3 张未付发票",看 AI 如何把跨模块工作串起来。',
+
+  'help.mod.market.title':      '🛒 Market · 市集',
+  'help.mod.market.what':       '做什么:第三方应用市集。已上架 50+ 合规工具(银行对接、电子签、CRM、ERP 桥)。开发者可上架,获得 70% 分润。',
+  'help.mod.market.who':        '适合:想扩展 SiNova 能力的所有用户;想接入流量的开发者。',
+  'help.mod.market.tip':        '小窍门:筛选"免费"标签可一键试用,所有 App 都享受 SiNova 数据互通。',
+
+  'help.mod.arena.title':       '🎮 Arena · 战场',
+  'help.mod.arena.what':        '做什么:把合规变成游戏。HCS 健康分 0-100 + 21 个徽章 + 季度排行榜 + Token 奖励。每提升 5 分送 50 \\$NOVA。',
+  'help.mod.arena.who':         '适合:所有用户(默认开启,游戏化加分)。',
+  'help.mod.arena.tip':         '小窍门:80+ 解锁"守门员"徽章,90+ 进入"钻石"等级,可获得专属客服 + 折扣。',
+
+  'help.mod.insight.title':     '📊 Insight · 洞察',
+  'help.mod.insight.what':      '做什么:行业基准报告(k-匿名 + Laplace 差分隐私)。贡献脱敏数据可分享 30% 数据销售收入。',
+  'help.mod.insight.who':       '适合:想了解行业水位 + 想赚被动 \\$NOVA 的企业。',
+  'help.mod.insight.tip':       '小窍门:实时调节 ε 和 k 滑块,看 SiNova 如何在保护隐私的前提下输出可用数据。',
+
+  // Section: AI Copilot
+  'help.s.copilot.title':       '✨ AI Copilot 使用指南',
+  'help.s.copilot.body':        '点击右下角悬浮按钮唤起。Pro 用户叫 NovaCopilot(深色),SME 用户叫你专属的 AI 合伙人(温暖色 + Persona 头像)。一句自然语言指令,后台并行调度多个专业 Agent(税务/薪酬/政府/风险/市场),返回结构化结果。',
+  'help.s.copilot.examples.title': '常见提问示例',
+  'help.s.copilot.example1':    '"帮我看看 ABC 公司这个月的税务风险"→ 自动调用 TaxShield + Radar Agent,15 秒出报告',
+  'help.s.copilot.example2':    '"我有个员工要从新加坡派到香港,薪资怎么调?"→ 调用 PayFlow + GovHub + TaxNet',
+  'help.s.copilot.example3':    '"客户 XYZ 逾期 45 天了,帮我写封中英双语催收邮件"→ 调用 CashLoop AI 催收',
+  'help.s.copilot.example4':    '"我下季度要去 IPO,需要做哪些合规准备?"→ 调用 GovHub + Radar + Vault 出 checklist',
+
+  // Section: $NOVA Tokens
+  'help.s.token.title':         '🚀 \\$NOVA Token 经济',
+  'help.s.token.what':          '\\$NOVA 是 SiNova 平台原生积分。可用于:抵扣月费 / 兑换数据报告 / 解锁高级 AI Agent / 排行榜竞争。',
+  'help.s.token.earn.title':    '怎么赚?',
+  'help.s.token.earn.1':        '✅ 注册即送 100 \\$NOVA',
+  'help.s.token.earn.2':        '✅ 完成首笔申报 +50',
+  'help.s.token.earn.3':        '✅ 关闭 Radar 预警 +5/个',
+  'help.s.token.earn.4':        '✅ HCS 每提升 5 分 +50',
+  'help.s.token.earn.5':        '✅ 解锁徽章 +20-200(看稀有度)',
+  'help.s.token.earn.6':        '✅ 邀请好友 +200(双方)',
+  'help.s.token.earn.7':        '✅ 贡献脱敏数据 +5/笔(永久分润 30%)',
+  'help.s.token.spend.title':   '怎么花?',
+  'help.s.token.spend.1':       '🛒 购买 Insight 报告(50-500 \\$NOVA)',
+  'help.s.token.spend.2':       '🤖 解锁 Pro Agent(月订阅 200 \\$NOVA)',
+  'help.s.token.spend.3':       '💼 抵扣月费(1 \\$NOVA = SGD 0.1)',
+
+  // Section: Security & Compliance
+  'help.s.security.title':      '🔒 安全与合规',
+  'help.s.security.body':       'SiNova 通过 SOC 2 Type II / ISO 27001 / GDPR / PDPA 认证。所有敏感文档加密存储于 Vault(链上哈希存证),AI Agent 不会把你的数据用于训练。Insight 报告全部经过 k≥10 匿名化 + Laplace 差分隐私(ε≤1.0),数学上不可还原个体。',
+
+  // Section: FAQ
+  'help.s.faq.title':           '❓ 常见问题 FAQ',
+  'help.s.faq.q1':              'Q1:我可以同时使用 Pro 和 SME 门户吗?',
+  'help.s.faq.a1':              '可以。一个邮箱注册时选择主门户;后续在 设置 → 账号 中可申请开通另一门户(免费)。',
+  'help.s.faq.q2':              'Q2:数据可以导出吗?会不会被锁定?',
+  'help.s.faq.a2':              '所有数据均可导出为 CSV / Excel / PDF。Vault 文档可一键打包下载(含链上存证哈希)。我们承诺永远开放 API,绝不锁定客户。',
+  'help.s.faq.q3':              'Q3:支持多少个国家 / 管辖区?',
+  'help.s.faq.a3':              '当前 v0.1 demo 覆盖 SG / HK / US / UK / MY / AE / AU / EU 共 8 个核心管辖区。每月新增,2025 年内将覆盖 50+。',
+  'help.s.faq.q4':              'Q4:AI 出错了怎么办?',
+  'help.s.faq.a4':              '所有 AI 输出都会标记"AI 建议"标签。重大决策(申报、付款、注销)需手动二次确认。如果发现错误,Vault 中保留完整审计链,可追溯。',
+  'help.s.faq.q5':              'Q5:如何切换 AI 合伙人 Persona?',
+  'help.s.faq.a5':              '设置 → 个人资料 → AI 合伙人 中切换。Maya(知性温暖)/ Alex(干练直接)/ Nova(极客效率),三种风格随时换。',
+  'help.s.faq.q6':              'Q6:免费版和付费版有什么区别?',
+  'help.s.faq.a6':              '免费版可使用全部 10 个模块,但每月限 50 笔操作 / 1 个管辖区。付费版无限操作 + 多管辖区 + Pro Agent + 优先客服。\\$NOVA 可直接抵扣月费。',
+  'help.s.faq.q7':              'Q7:可以邀请同事一起用吗?',
+  'help.s.faq.a7':              'Pro 团队版支持多席位 + 角色权限(主管 / 顾问 / 助理)。SME 暂为单用户,Q3 推出团队版。',
+
+  // Section: Support
+  'help.s.support.title':       '🆘 联系我们',
+  'help.s.support.email':       '📧 邮箱:support@sinova.ai',
+  'help.s.support.chat':        '💬 在线客服:点击右下角 NovaCopilot,输入"转人工"',
+  'help.s.support.community':   '🌐 开发者社区:dev.sinova.ai',
+  'help.s.support.status':      '📊 系统状态:status.sinova.ai',
+  'help.s.support.feedback':    '✨ 提建议送 50 \\$NOVA · feedback@sinova.ai',
+
+  // Toolbar
+  'help.cta.openCopilot':       '✨ 打开 NovaCopilot 立即提问',
+  'help.cta.tryModule':         '前往该模块 →',
+  'help.cta.backTop':           '↑ 回到顶部',
 };
 
 // ─── English ────────────────────────────────────────────────────────
@@ -1897,6 +2039,139 @@ const en: Dict = {
 
   'moduleRender.loadFailed':    'Load failed: {e}',
   'moduleRender.unknown':       'Unknown module.',
+
+  // ─── Help / Documentation ──────────────────────────────────────────
+  'help.nav':                   'Help',
+  'help.title':                 '📚 SiNova User Guide',
+  'help.subtitle':              '5-minute onboarding · all modules explained · AI partner best practices',
+  'help.searchPlaceholder':     'Search features, modules, shortcuts…',
+  'help.toc':                   'Table of contents',
+  'help.lastUpdated':           'Last updated: 2025-05',
+  'help.printBtn':              '🖨 Print this page',
+
+  'help.s.welcome.title':       '👋 Welcome to SiNova',
+  'help.s.welcome.body':        'SiNova is the next-gen global compliance AI platform for cross-border SMEs and professional service providers. We turn the most painful chores — taxes, payroll, cash flow, government filings, cross-border compliance — into one-click routines using 10 core modules + an AI partner. "Compliance overtime" becomes "leveling up".',
+  'help.s.welcome.audience.title': 'Who uses SiNova?',
+  'help.s.welcome.audience.pro': '👔 Pro portal · service providers',
+  'help.s.welcome.audience.proBody': 'Accountants / lawyers / tax advisers / corporate secretaries / immigration consultants / valuers / IPO advisers. Manage many clients across many jurisdictions with Radar early warnings and Vault on-chain attestation.',
+  'help.s.welcome.audience.sme': '🏪 SME portal · small & mid businesses',
+  'help.s.welcome.audience.smeBody': 'E-commerce sellers / SaaS / cross-border trade / crypto firms / restaurant chains / manufacturers / service businesses. Maya/Alex/Nova are your 24×7 AI partner — they translate compliance jargon into plain language.',
+
+  'help.s.start.title':         '🚀 5-minute quick start',
+  'help.s.start.step1.title':   'Step 1 — Sign up',
+  'help.s.start.step1.body':    'Click Sign up in the top-right → choose portal (Pro / SME) → choose role → choose primary jurisdiction (SG/HK/US/UK/MY/AE/AU/EU). SME users also pick an AI partner (Maya warm / Alex sharp / Nova geek). Get 100 \\$NOVA on registration.',
+  'help.s.start.step2.title':   'Step 2 — Home dashboard',
+  'help.s.start.step2.body':    'Pro: see client hub, todos, HCS health score, monthly ranking. SME: see today\'s todos, AI partner greeting, streak days, \\$NOVA balance. Click any tab on the top bar or sidebar to enter a module.',
+  'help.s.start.step3.title':   'Step 3 — Talk to AI Copilot',
+  'help.s.start.step3.body':    'Click the floating ✨ NovaCopilot button bottom-right (Pro) or your AI partner avatar (SME). It dispatches multiple Agents (tax / payroll / gov / risk / market) in parallel — one sentence finishes what used to take three websites.',
+  'help.s.start.step4.title':   'Step 4 — Switch language / theme',
+  'help.s.start.step4.body':    'Top-right 🌐 中 / EN toggles between Chinese and English (saved 1 year). Pro is dark professional, SME is warm friendly — auto-selected from your account type.',
+
+  'help.s.modules.title':       '🧩 The 10 modules',
+  'help.s.modules.subtitle':    'Click any module to jump in',
+
+  'help.mod.taxshield.title':   '🛡 TaxShield · Tax Shield',
+  'help.mod.taxshield.what':    'What it does: global corporate income tax — auto-saving + filing. OCR your financials → AI finds deductions → one-click form generation.',
+  'help.mod.taxshield.who':     'For: Pro batch filing across clients / SME self-service compliance.',
+  'help.mod.taxshield.tip':     'Pro tip: turn on "vs CoPi" comparison to see how much more SiNova saved vs traditional software.',
+
+  'help.mod.payflow.title':     '💸 PayFlow · Pay Flow',
+  'help.mod.payflow.what':      'What it does: cross-border payroll + ESOP + social security in one click. Calendar view of every pay date, ESOP auto-vesting + tax calculation.',
+  'help.mod.payflow.who':       'For: companies with overseas employees / option grants / multi-currency payslips.',
+  'help.mod.payflow.tip':       'Pro tip: pin the ESOP card to home dashboard — vesting season triggers automatic tax-impact alerts.',
+
+  'help.mod.cashloop.title':    '🔁 CashLoop · Cash Loop',
+  'help.mod.cashloop.what':     'What it does: AR + AP management. OCR auto-recognises invoices, AI generates multi-language / multi-tone dunning emails, suggests early-pay discounts.',
+  'help.mod.cashloop.who':      'For: cross-border e-commerce, SaaS, trading firms — anyone choking on cash flow.',
+  'help.mod.cashloop.tip':      'Pro tip: enabling AI auto-dunning shortens average DSO by 14 days.',
+
+  'help.mod.govhub.title':      '🏛 GovHub · Government Hub',
+  'help.mod.govhub.what':       'What it does: one-stop global government filings. Incorporation / annual return / change registration / strike-off / immigration — all tracked on a Gantt chart.',
+  'help.mod.govhub.who':        'For: companies expanding internationally / cross-border IPOs / immigration planning.',
+  'help.mod.govhub.tip':        'Pro tip: tree view groups by jurisdiction; Gantt timeline shows current stage of every filing.',
+
+  'help.mod.taxnet.title':      '🌐 TaxNet · Tax Net',
+  'help.mod.taxnet.what':       'What it does: unified ledger for cross-border indirect tax (GST/VAT/Sales Tax/DST). One map shows your tax status in every country.',
+  'help.mod.taxnet.who':        'For: cross-border e-commerce / SaaS subscriptions / digital service providers.',
+  'help.mod.taxnet.tip':        'Pro tip: when sales hit a country\'s threshold you get an auto-alert — no more late-registration fines.',
+
+  'help.mod.radar.title':       '📡 Radar · Risk Radar',
+  'help.mod.radar.what':        'What it does: 24×7 real-time compliance risk monitor. 4-factor score (punctuality 40% + finance 30% + governance 20% + improvement 10%). Drag the weights for sensitivity analysis.',
+  'help.mod.radar.who':         'For: every SiNova user (on by default).',
+  'help.mod.radar.tip':         'Pro tip: subscribe to "CRITICAL level" push notifications — new alerts hit your phone within 2 minutes.',
+
+  'help.mod.partner.title':     '🤝 Partner · AI Partner',
+  'help.mod.partner.what':      'What it does: your AI partner (Maya warm consultant / Alex sharp executor / Nova geek). Switch persona, save chat history, call any module on demand.',
+  'help.mod.partner.who':       'For: SME users\' main entry (Pro users use NovaCopilot).',
+  'help.mod.partner.tip':       'Pro tip: try asking "how much tax do I owe next month?" or "chase my 3 unpaid invoices" — watch the AI string modules together.',
+
+  'help.mod.market.title':      '🛒 Market · App Market',
+  'help.mod.market.what':       'What it does: third-party app market. 50+ compliance tools listed (banking integrations, e-signature, CRM, ERP bridges). Developers earn 70% revenue share.',
+  'help.mod.market.who':        'For: anyone wanting to extend SiNova; developers wanting distribution.',
+  'help.mod.market.tip':        'Pro tip: filter by "Free" tag for one-click trial — every app shares SiNova\'s data interop layer.',
+
+  'help.mod.arena.title':       '🎮 Arena · Compliance Arena',
+  'help.mod.arena.what':        'What it does: gamifies compliance. HCS score 0–100 + 21 badges + seasonal leaderboard + token rewards. Every +5 HCS = 50 \\$NOVA.',
+  'help.mod.arena.who':         'For: every user (on by default — bonus gamification).',
+  'help.mod.arena.tip':         'Pro tip: 80+ unlocks the "Goalie" badge, 90+ enters "Diamond" tier — exclusive support + discounts.',
+
+  'help.mod.insight.title':     '📊 Insight · Industry Insights',
+  'help.mod.insight.what':      'What it does: industry benchmark reports (k-anonymity + Laplace differential privacy). Contribute de-identified data and earn 30% of data sales.',
+  'help.mod.insight.who':       'For: companies wanting to benchmark + earn passive \\$NOVA.',
+  'help.mod.insight.tip':       'Pro tip: drag the ε and k sliders live — see how SiNova produces useful data while preserving privacy.',
+
+  'help.s.copilot.title':       '✨ AI Copilot — usage guide',
+  'help.s.copilot.body':        'Click the bottom-right floating button. Pro users see NovaCopilot (dark); SME users see their AI partner (warm tones + persona avatar). One natural-language instruction dispatches multiple specialist Agents (tax/payroll/gov/risk/market) in parallel and returns structured results.',
+  'help.s.copilot.examples.title': 'Common prompts',
+  'help.s.copilot.example1':    '"Check ABC Co.\'s tax risk this month" → calls TaxShield + Radar Agent, report in 15 s',
+  'help.s.copilot.example2':    '"I have an employee moving from SG to HK — adjust salary" → calls PayFlow + GovHub + TaxNet',
+  'help.s.copilot.example3':    '"Customer XYZ is 45 days overdue — write a bilingual dunning email" → calls CashLoop AI dunning',
+  'help.s.copilot.example4':    '"I\'m IPO-ing next quarter — what compliance prep do I need?" → calls GovHub + Radar + Vault for a checklist',
+
+  'help.s.token.title':         '🚀 \\$NOVA token economy',
+  'help.s.token.what':          '\\$NOVA is the native loyalty token. Use it to: offset monthly fees / redeem data reports / unlock premium AI Agents / climb the leaderboard.',
+  'help.s.token.earn.title':    'How to earn',
+  'help.s.token.earn.1':        '✅ Sign-up bonus 100 \\$NOVA',
+  'help.s.token.earn.2':        '✅ First filing +50',
+  'help.s.token.earn.3':        '✅ Close a Radar alert +5 each',
+  'help.s.token.earn.4':        '✅ Every +5 HCS = +50',
+  'help.s.token.earn.5':        '✅ Unlock badges +20–200 (by rarity)',
+  'help.s.token.earn.6':        '✅ Refer a friend +200 (both sides)',
+  'help.s.token.earn.7':        '✅ Contribute de-identified data +5/record (forever 30% data revenue share)',
+  'help.s.token.spend.title':   'How to spend',
+  'help.s.token.spend.1':       '🛒 Insight reports (50–500 \\$NOVA)',
+  'help.s.token.spend.2':       '🤖 Pro Agent (200 \\$NOVA / month)',
+  'help.s.token.spend.3':       '💼 Offset monthly fees (1 \\$NOVA = SGD 0.10)',
+
+  'help.s.security.title':      '🔒 Security & compliance',
+  'help.s.security.body':       'SiNova is SOC 2 Type II / ISO 27001 / GDPR / PDPA certified. Sensitive docs are encrypted in Vault (with on-chain attestation hashes). AI Agents never train on your data. Insight reports are k≥10 anonymised + Laplace differential privacy (ε≤1.0) — mathematically non-reversible.',
+
+  'help.s.faq.title':           '❓ FAQ',
+  'help.s.faq.q1':              'Q1 · Can I use both Pro and SME portals?',
+  'help.s.faq.a1':              'Yes. Pick a primary portal at signup; in Settings → Account you can request the other portal (free).',
+  'help.s.faq.q2':              'Q2 · Can I export my data? Will I be locked in?',
+  'help.s.faq.a2':              'Everything exports to CSV / Excel / PDF. Vault docs export as a single bundle (with on-chain hash). We promise an open API forever — no lock-in.',
+  'help.s.faq.q3':              'Q3 · How many jurisdictions do you cover?',
+  'help.s.faq.a3':              'v0.1 demo covers SG / HK / US / UK / MY / AE / AU / EU — 8 core jurisdictions. New ones added monthly; 50+ by end of 2025.',
+  'help.s.faq.q4':              'Q4 · What if the AI makes a mistake?',
+  'help.s.faq.a4':              'Every AI output is tagged "AI suggestion". Critical decisions (filings, payments, strike-offs) require manual confirmation. Vault keeps a full audit trail.',
+  'help.s.faq.q5':              'Q5 · How do I switch AI partner persona?',
+  'help.s.faq.a5':              'Settings → Profile → AI partner. Maya (warm), Alex (sharp), Nova (geek) — switch any time.',
+  'help.s.faq.q6':              'Q6 · What\'s the difference between free and paid?',
+  'help.s.faq.a6':              'Free: all 10 modules, but 50 ops/month + 1 jurisdiction. Paid: unlimited ops + multi-jurisdiction + Pro Agent + priority support. \\$NOVA tokens directly offset paid plans.',
+  'help.s.faq.q7':              'Q7 · Can I invite teammates?',
+  'help.s.faq.a7':              'Pro Team supports multi-seat with role permissions (lead / consultant / assistant). SME team plan ships in Q3.',
+
+  'help.s.support.title':       '🆘 Contact us',
+  'help.s.support.email':       '📧 Email: support@sinova.ai',
+  'help.s.support.chat':        '💬 Live chat: click NovaCopilot bottom-right and type "human"',
+  'help.s.support.community':   '🌐 Developer community: dev.sinova.ai',
+  'help.s.support.status':      '📊 System status: status.sinova.ai',
+  'help.s.support.feedback':    '✨ Send feedback → 50 \\$NOVA · feedback@sinova.ai',
+
+  'help.cta.openCopilot':       '✨ Open NovaCopilot to ask now',
+  'help.cta.tryModule':         'Open this module →',
+  'help.cta.backTop':           '↑ Back to top',
 };
 
 const DICTS: Record<Lang, Dict> = { zh, en };
