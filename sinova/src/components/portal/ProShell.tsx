@@ -5,33 +5,34 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { CopilotDock } from './CopilotDock';
+import { useI18n, LangSwitch } from '@/i18n/client';
 import {
   Home, Users, ListChecks, Radar, Store, FileBox, Trophy, Settings,
   Search, Bell, ChevronDown, LogOut, Sparkles,
 } from 'lucide-react';
 
-const NAV = [
-  { href: '/pro',                 label: '首页',     icon: Home },
-  { href: '/pro/clients',         label: '客户',     icon: Users },
-  { href: '/pro/tasks',           label: '任务',     icon: ListChecks },
-  { href: '/pro/modules/radar',   label: '雷达',     icon: Radar },
-  { href: '/pro/modules/market',  label: '集市',     icon: Store },
-  { href: '/pro/vault',           label: 'Vault',    icon: FileBox },
-  { href: '/pro/modules/arena',   label: '战场',     icon: Trophy },
-  { href: '/pro/settings',        label: '设置',     icon: Settings },
-];
+const NAV_ITEMS = [
+  { href: '/pro',                 key: 'pro.nav.home',     icon: Home },
+  { href: '/pro/clients',         key: 'pro.nav.clients',  icon: Users },
+  { href: '/pro/tasks',           key: 'pro.nav.tasks',    icon: ListChecks },
+  { href: '/pro/modules/radar',   key: 'pro.nav.radar',    icon: Radar },
+  { href: '/pro/modules/market',  key: 'pro.nav.market',   icon: Store },
+  { href: '/pro/vault',           key: 'pro.nav.vault',    icon: FileBox },
+  { href: '/pro/modules/arena',   key: 'pro.nav.arena',    icon: Trophy },
+  { href: '/pro/settings',        key: 'pro.nav.settings', icon: Settings },
+] as const;
 
 const MODULE_TABS = [
-  { slug: 'taxshield', label: 'TaxShield', emoji: '🛡' },
-  { slug: 'payflow',   label: 'PayFlow',   emoji: '💸' },
-  { slug: 'cashloop',  label: 'CashLoop',  emoji: '🔁' },
-  { slug: 'govhub',    label: 'GovHub',    emoji: '🏛' },
-  { slug: 'taxnet',    label: 'TaxNet',    emoji: '🌐' },
-  { slug: 'radar',     label: 'Radar',     emoji: '📡' },
-  { slug: 'partner',   label: 'Partner',   emoji: '🤝' },
-  { slug: 'market',    label: 'Market',    emoji: '🛒' },
-  { slug: 'arena',     label: 'Arena',     emoji: '🎮' },
-  { slug: 'insight',   label: 'Insight',   emoji: '📊' },
+  { slug: 'taxshield', emoji: '🛡' },
+  { slug: 'payflow',   emoji: '💸' },
+  { slug: 'cashloop',  emoji: '🔁' },
+  { slug: 'govhub',    emoji: '🏛' },
+  { slug: 'taxnet',    emoji: '🌐' },
+  { slug: 'radar',     emoji: '📡' },
+  { slug: 'partner',   emoji: '🤝' },
+  { slug: 'market',    emoji: '🛒' },
+  { slug: 'arena',     emoji: '🎮' },
+  { slug: 'insight',   emoji: '📊' },
 ];
 
 export function ProShell({
@@ -43,6 +44,7 @@ export function ProShell({
 }) {
   const pathname = usePathname();
   const router   = useRouter();
+  const { t, lang } = useI18n();
   const [copilotOpen, setCopilotOpen] = useState(false);
 
   async function logout() {
@@ -60,19 +62,19 @@ export function ProShell({
             <Link href="/pro" className="flex items-center gap-2 text-base font-bold">
               <span className="text-xl">📡</span>
               <span className="bg-gradient-to-r from-white via-nova-200 to-gold-400 bg-clip-text text-transparent">
-                司诺 SiNova
+                {t('app.name')}
               </span>
               <span className="nova-chip ml-2 bg-nova-500/15 text-nova-200 ring-nova-400/40">Pro</span>
             </Link>
             <nav className="hidden items-center gap-1 lg:flex">
-              {MODULE_TABS.map((t) => {
-                const active = pathname.startsWith(`/pro/modules/${t.slug}`);
+              {MODULE_TABS.map((tab) => {
+                const active = pathname.startsWith(`/pro/modules/${tab.slug}`);
                 return (
-                  <Link key={t.slug} href={`/pro/modules/${t.slug}`}
+                  <Link key={tab.slug} href={`/pro/modules/${tab.slug}`}
                     className={`rounded-lg px-2.5 py-1.5 text-xs transition ${active
                       ? 'bg-white/10 text-white'
                       : 'text-slate-400 hover:bg-white/5 hover:text-white'}`}>
-                    <span className="mr-1">{t.emoji}</span>{t.label}
+                    <span className="mr-1">{tab.emoji}</span>{t(`mod.${tab.slug}.cn`)}
                   </Link>
                 );
               })}
@@ -81,9 +83,10 @@ export function ProShell({
           <div className="flex items-center gap-3">
             <div className="hidden items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 text-sm md:flex">
               <Search className="h-4 w-4 text-slate-400" />
-              <span className="text-slate-400">搜索…</span>
+              <span className="text-slate-400">{t('common.search')}…</span>
               <kbd className="rounded bg-white/10 px-1.5 py-0.5 text-[10px] text-slate-300">⌘K</kbd>
             </div>
+            <LangSwitch />
             <button className="relative rounded-lg p-2 hover:bg-white/5">
               <Bell className="h-4 w-4 text-slate-300" />
               <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-risk-red"></span>
@@ -95,9 +98,9 @@ export function ProShell({
             </div>
             <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-2 py-1 text-xs">
               <span>🔥</span><span className="font-mono">{user.streakDays}</span>
-              <span className="text-slate-500">连胜</span>
+              <span className="text-slate-500">{lang === 'en' ? 'streak' : '连胜'}</span>
             </div>
-            <UserMenu user={user} onLogout={logout} />
+            <UserMenu user={user} onLogout={logout} logoutLabel={t('common.logout')} />
           </div>
         </div>
       </header>
@@ -106,7 +109,7 @@ export function ProShell({
       <div className="mx-auto flex max-w-[1500px] gap-4 p-4">
         <aside className="hidden w-56 shrink-0 lg:block">
           <nav className="sticky top-[72px] space-y-1">
-            {NAV.map((it) => {
+            {NAV_ITEMS.map((it) => {
               const Icon = it.icon;
               const active = pathname === it.href ||
                 (it.href !== '/pro' && pathname.startsWith(it.href));
@@ -116,17 +119,21 @@ export function ProShell({
                     ? 'bg-nova-500/15 text-nova-200 ring-1 ring-inset ring-nova-400/30'
                     : 'text-slate-300 hover:bg-white/5 hover:text-white'}`}>
                   <Icon className="h-4 w-4" />
-                  {it.label}
+                  {t(it.key)}
                 </Link>
               );
             })}
             <div className="mt-6 rounded-xl border border-white/10 bg-gradient-to-br from-nova-900/40 to-ink-900 p-4">
-              <div className="text-xs uppercase tracking-widest text-slate-400">本月排名</div>
+              <div className="text-xs uppercase tracking-widest text-slate-400">
+                {lang === 'en' ? 'This month’s rank' : '本月排名'}
+              </div>
               <div className="mt-2 flex items-baseline gap-1">
                 <span className="text-3xl font-bold text-gold-400">#7</span>
-                <span className="text-xs text-slate-400">/ 1,240 服务商</span>
+                <span className="text-xs text-slate-400">{lang === 'en' ? '/ 1,240 providers' : '/ 1,240 服务商'}</span>
               </div>
-              <div className="mt-2 text-xs text-slate-400">关闭 50 个预警可冲到 TOP 5</div>
+              <div className="mt-2 text-xs text-slate-400">
+                {lang === 'en' ? 'Close 50 alerts to reach TOP 5' : '关闭 50 个预警可冲到 TOP 5'}
+              </div>
             </div>
           </nav>
         </aside>
@@ -147,7 +154,7 @@ export function ProShell({
   );
 }
 
-function UserMenu({ user, onLogout }: { user: { name: string; email: string }; onLogout: () => void }) {
+function UserMenu({ user, onLogout, logoutLabel }: { user: { name: string; email: string }; onLogout: () => void; logoutLabel: string }) {
   const [open, setOpen] = useState(false);
   return (
     <div className="relative">
@@ -167,7 +174,7 @@ function UserMenu({ user, onLogout }: { user: { name: string; email: string }; o
           <hr className="my-1 border-white/5" />
           <button onClick={onLogout}
             className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-slate-300 hover:bg-white/5">
-            <LogOut className="h-4 w-4" /> 退出登录
+            <LogOut className="h-4 w-4" /> {logoutLabel}
           </button>
         </div>
       )}

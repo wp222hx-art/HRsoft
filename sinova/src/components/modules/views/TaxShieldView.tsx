@@ -1,6 +1,7 @@
 'use client';
 import { JURISDICTION_META, type Jurisdiction } from '@/lib/enums';
 import { fmtDate, formatMoney, relativeDays } from '@/lib/utils';
+import { useI18n } from '@/i18n/client';
 
 const STATUS_COLORS: Record<string, string> = {
   DRAFT:         'bg-slate-500/20 text-slate-300',
@@ -13,6 +14,7 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 export function TaxShieldView({ filings }: any) {
+  const { t } = useI18n();
   const totalTax = filings.reduce((s: number, f: any) => s + f.taxPayable, 0);
   const totalSaving = filings.filter((f: any) => f.aiSavingHint).reduce((s: number, f: any) => {
     const m = f.aiSavingHint?.match(/(\d{1,3}(?:[,_]?\d{3})+|\d+)/);
@@ -22,27 +24,27 @@ export function TaxShieldView({ filings }: any) {
   return (
     <div className="space-y-5">
       <div className="grid gap-3 md:grid-cols-4">
-        <Stat label="跟踪申报"   value={String(filings.length)} accent="text-nova-300" />
-        <Stat label="应缴税合计" value={formatMoney(totalTax)}   accent="text-slate-100" />
-        <Stat label="AI 筹划建议节税" value={formatMoney(totalSaving)} accent="text-emerald-300" />
-        <Stat label="覆盖国家"   value="🇸🇬🇭🇰🇺🇸🇬🇧🇦🇪" accent="" />
+        <Stat label={t('taxshield.stat.tracking')}    value={String(filings.length)} accent="text-nova-300" />
+        <Stat label={t('taxshield.stat.totalTax')}    value={formatMoney(totalTax)}   accent="text-slate-100" />
+        <Stat label={t('taxshield.stat.totalSaving')} value={formatMoney(totalSaving)} accent="text-emerald-300" />
+        <Stat label={t('taxshield.stat.coverage')}    value="🇸🇬🇭🇰🇺🇸🇬🇧🇦🇪" accent="" />
       </div>
 
       <div className="rounded-2xl border border-white/10 bg-ink-900/50 overflow-hidden">
         <div className="flex items-center justify-between border-b border-white/5 px-4 py-3">
-          <div className="font-semibold">📋 税务工作台</div>
-          <div className="text-xs text-slate-400">AI 草稿 → 税务师审核 → 客户 e-签 → 监管提交</div>
+          <div className="font-semibold">{t('taxshield.workbench')}</div>
+          <div className="text-xs text-slate-400">{t('taxshield.workbenchHint')}</div>
         </div>
         <table className="w-full text-sm">
           <thead className="bg-white/5 text-xs uppercase tracking-widest text-slate-400">
             <tr>
-              <th className="px-4 py-2 text-left">客户 / Form</th>
-              <th className="px-4 py-2 text-left">辖区</th>
-              <th className="px-4 py-2 text-right">应税收入</th>
-              <th className="px-4 py-2 text-right">税款</th>
-              <th className="px-4 py-2 text-left">截止</th>
-              <th className="px-4 py-2 text-left">状态</th>
-              <th className="px-4 py-2 text-left">AI 筹划建议</th>
+              <th className="px-4 py-2 text-left">{t('taxshield.col.client')}</th>
+              <th className="px-4 py-2 text-left">{t('taxshield.col.juris2')}</th>
+              <th className="px-4 py-2 text-right">{t('taxshield.col.taxableIncome')}</th>
+              <th className="px-4 py-2 text-right">{t('taxshield.col.tax')}</th>
+              <th className="px-4 py-2 text-left">{t('taxshield.col.due')}</th>
+              <th className="px-4 py-2 text-left">{t('taxshield.col.status')}</th>
+              <th className="px-4 py-2 text-left">{t('taxshield.col.aiHint2')}</th>
             </tr>
           </thead>
           <tbody>
@@ -54,7 +56,7 @@ export function TaxShieldView({ filings }: any) {
                     <div className="font-medium">{f.entity?.legalName}</div>
                     <div className="text-xs text-slate-400">{f.formType} · FY{f.taxYear}</div>
                   </td>
-                  <td className="px-4 py-3">{j?.flag} {j?.name}</td>
+                  <td className="px-4 py-3">{j?.flag} {t(`juris.${f.jurisdiction}`)}</td>
                   <td className="px-4 py-3 text-right font-mono">{formatMoney(f.taxableIncome)}</td>
                   <td className="px-4 py-3 text-right font-mono text-amber-300">{formatMoney(f.taxPayable)}</td>
                   <td className="px-4 py-3 text-xs">
@@ -75,10 +77,9 @@ export function TaxShieldView({ filings }: any) {
       </div>
 
       <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-4 text-sm text-emerald-200">
-        <div className="font-semibold">💡 vs Copi 超越点</div>
+        <div className="font-semibold">{t('taxshield.versus.title')}</div>
         <div className="mt-1 text-slate-300">
-          Copi AI.TaxAssist 仅支持 SG。SiNova 通过 OPA 规则引擎 (Open Policy Agent) 把每个国家的合规规则写成 Rego 策略文件,
-          支持 5 国 (SG / HK / US / UK / AE), 新增国家最快 4 周上线。AI 还会主动给出筹划建议(R&D 抵免 / Pioneer / Free Zone…)。
+          {t('taxshield.versus.body')}
         </div>
       </div>
     </div>

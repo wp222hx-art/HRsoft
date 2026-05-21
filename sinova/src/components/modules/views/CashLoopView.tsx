@@ -1,6 +1,7 @@
 'use client';
 // CashLoop — AR + AP dual closed-loop. The flagship "Copi 缺口" module.
 import { fmtDate, formatMoney, relativeDays } from '@/lib/utils';
+import { useI18n } from '@/i18n/client';
 
 const INV_COLOR: Record<string, string> = {
   DRAFT:     'bg-slate-500/20 text-slate-300',
@@ -21,6 +22,7 @@ const BILL_COLOR: Record<string, string> = {
 };
 
 export function CashLoopView({ invoices, bills }: any) {
+  const { t } = useI18n();
   const arOpen      = invoices.filter((i: any) => !['COLLECTED','BAD_DEBT'].includes(i.status));
   const arOverdue   = invoices.filter((i: any) => i.status === 'OVERDUE');
   const arInflow    = arOpen.reduce((s: number, i: any) => s + i.amount, 0);
@@ -33,10 +35,10 @@ export function CashLoopView({ invoices, bills }: any) {
     <div className="space-y-5">
       {/* Cash dashboard */}
       <div className="grid gap-3 md:grid-cols-4">
-        <Stat label="AR 应收开放" value={formatMoney(arInflow)} accent="text-emerald-300" hint={`${arOpen.length} 张未结`} />
-        <Stat label="AR 逾期金额" value={formatMoney(arOverdueAmt)} accent="text-red-300" hint={`${arOverdue.length} 张逾期`} />
-        <Stat label="AP 应付待出" value={formatMoney(apOutflow)} accent="text-amber-300" hint={`${apOpen.length} 张待审`} />
-        <Stat label="净现金流"   value={formatMoney(net)}        accent={net >= 0 ? 'text-emerald-300' : 'text-red-300'} hint="本期预测" />
+        <Stat label={t('cashloop.stat.arOpen')}    value={formatMoney(arInflow)}     accent="text-emerald-300" hint={`${arOpen.length} ${t('cashloop.stat.unsettled')}`} />
+        <Stat label={t('cashloop.stat.arOverdue')} value={formatMoney(arOverdueAmt)} accent="text-red-300"     hint={`${arOverdue.length} ${t('cashloop.stat.overdue')}`} />
+        <Stat label={t('cashloop.stat.apOpen')}    value={formatMoney(apOutflow)}    accent="text-amber-300"   hint={`${apOpen.length} ${t('cashloop.stat.toApprove')}`} />
+        <Stat label={t('cashloop.stat.netCash')}   value={formatMoney(net)}          accent={net >= 0 ? 'text-emerald-300' : 'text-red-300'} hint={t('cashloop.stat.thisCycle')} />
       </div>
 
       <div className="grid gap-5 lg:grid-cols-2">
@@ -44,10 +46,10 @@ export function CashLoopView({ invoices, bills }: any) {
         <section className="rounded-2xl border border-white/10 bg-ink-900/50">
           <div className="flex items-center justify-between border-b border-white/5 px-4 py-3">
             <div>
-              <div className="font-semibold">📥 AR · 应收账款 (Copi 缺失)</div>
-              <div className="text-[11px] text-slate-400">开票 · 多币种 · 老化 · AI 多语种催收 · 票据贴现</div>
+              <div className="font-semibold">{t('cashloop.ar.titleFull')}</div>
+              <div className="text-[11px] text-slate-400">{t('cashloop.ar.subtitle')}</div>
             </div>
-            <button className="nova-btn-outline text-xs">+ 新建发票</button>
+            <button className="nova-btn-outline text-xs">{t('cashloop.ar.create')}</button>
           </div>
           <div className="divide-y divide-white/5">
             {invoices.map((i: any) => (
@@ -63,16 +65,16 @@ export function CashLoopView({ invoices, bills }: any) {
                   </span>
                 </div>
                 <div className="mt-1 flex items-center justify-between text-[11px] text-slate-500">
-                  <span>截止 {fmtDate(i.dueDate)} · {relativeDays(i.dueDate)}</span>
-                  <span>客户信用 {i.customerRiskScore}/100 · Dunning Stage {i.dunningStage}</span>
+                  <span>{t('cashloop.dueLine', { date: fmtDate(i.dueDate), rel: relativeDays(i.dueDate) })}</span>
+                  <span>{t('cashloop.creditLine', { score: i.customerRiskScore, stage: i.dunningStage })}</span>
                 </div>
                 {i.status === 'OVERDUE' && (
                   <div className="mt-2 flex items-center gap-2">
                     <button className="rounded-lg bg-nova-500/20 px-2 py-1 text-[11px] text-nova-200 hover:bg-nova-500/30">
-                      ✉️ AI 催收 (T+{['','0','7','14','30'][i.dunningStage] || '?'})
+                      {t('cashloop.btn.aiDun', { t: ['','0','7','14','30'][i.dunningStage] || '?' })}
                     </button>
                     <button className="rounded-lg bg-gold-500/20 px-2 py-1 text-[11px] text-gold-300 hover:bg-gold-500/30">
-                      💰 票据贴现
+                      {t('cashloop.btn.discount')}
                     </button>
                   </div>
                 )}
@@ -85,10 +87,10 @@ export function CashLoopView({ invoices, bills }: any) {
         <section className="rounded-2xl border border-white/10 bg-ink-900/50">
           <div className="flex items-center justify-between border-b border-white/5 px-4 py-3">
             <div>
-              <div className="font-semibold">📤 AP · 应付账款 (永久免费)</div>
-              <div className="text-[11px] text-slate-400">OCR · 智能规则 · 审批链 · Airwallex 全球支付</div>
+              <div className="font-semibold">{t('cashloop.ap.titleFull')}</div>
+              <div className="text-[11px] text-slate-400">{t('cashloop.ap.subtitle2')}</div>
             </div>
-            <button className="nova-btn-outline text-xs">+ 上传发票</button>
+            <button className="nova-btn-outline text-xs">{t('cashloop.ap.upload2')}</button>
           </div>
           <div className="divide-y divide-white/5">
             {bills.map((b: any) => (
@@ -98,12 +100,12 @@ export function CashLoopView({ invoices, bills }: any) {
                   <span className={`nova-chip ${BILL_COLOR[b.status]}`}>{b.status}</span>
                 </div>
                 <div className="mt-1 flex items-center justify-between text-xs">
-                  <span className="text-slate-400">截止 {fmtDate(b.dueDate)} · {relativeDays(b.dueDate)}</span>
+                  <span className="text-slate-400">{t('cashloop.dueLine', { date: fmtDate(b.dueDate), rel: relativeDays(b.dueDate) })}</span>
                   <span className="font-mono text-slate-200">
                     {b.currency} {b.amount.toLocaleString()}
                   </span>
                 </div>
-                <div className="mt-1 text-[11px] text-slate-500">OCR 置信度 {(b.ocrConfidence * 100).toFixed(0)}%</div>
+                <div className="mt-1 text-[11px] text-slate-500">{t('cashloop.ocr', { n: (b.ocrConfidence * 100).toFixed(0) })}</div>
               </div>
             ))}
           </div>
@@ -111,11 +113,9 @@ export function CashLoopView({ invoices, bills }: any) {
       </div>
 
       <div className="rounded-2xl border border-gold-500/30 bg-gradient-to-br from-gold-500/10 to-transparent p-5">
-        <div className="font-semibold text-gold-300">🔥 核心差异化 · CashLoop AR + AP 双闭环</div>
+        <div className="font-semibold text-gold-300">{t('cashloop.diff.title')}</div>
         <div className="mt-2 text-sm text-slate-300">
-          Copi 只解决"付钱"(AP),不解决"收钱"(AR),但 SME 真正死掉的原因是 <strong className="text-white">收不回钱</strong>。
-          SiNova 把 AP (Odoo 模式) + AR (Invoice Ninja 模式) 整合,叠加 AI 多语种催收 (DunnerAI App)、
-          票据贴现 (持牌金融机构) 和客户信用评分——直接砍掉 SME 一半的财务焦虑。
+          {t('cashloop.diff.body1')} <strong className="text-white">{t('cashloop.diff.body2')}</strong>{t('cashloop.diff.body3')}
         </div>
       </div>
     </div>

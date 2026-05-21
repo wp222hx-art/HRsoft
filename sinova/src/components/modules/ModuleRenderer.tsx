@@ -2,6 +2,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useI18n } from '@/i18n/client';
 import { TaxShieldView } from './views/TaxShieldView';
 import { PayFlowView }   from './views/PayFlowView';
 import { CashLoopView }  from './views/CashLoopView';
@@ -16,6 +17,7 @@ import { InsightView }   from './views/InsightView';
 export function ModuleRenderer({ slug, portal }: { slug: string; portal: 'PRO' | 'SME' }) {
   const [data, setData] = useState<any>(null);
   const [err, setErr]   = useState<string | null>(null);
+  const { t } = useI18n();
 
   useEffect(() => {
     fetch(`/api/modules/${slug}`)
@@ -27,7 +29,7 @@ export function ModuleRenderer({ slug, portal }: { slug: string; portal: 'PRO' |
   if (err) {
     return (
       <div className="rounded-xl border border-red-500/40 bg-red-500/10 p-4 text-sm text-red-300">
-        加载失败: {err}
+        {t('moduleRender.loadFailed', { e: err })}
       </div>
     );
   }
@@ -53,6 +55,6 @@ export function ModuleRenderer({ slug, portal }: { slug: string; portal: 'PRO' |
     case 'market':    return <MarketView    {...props} />;
     case 'arena':     return <ArenaView     {...props} />;
     case 'insight':   return <InsightView   {...props} />;
-    default:          return <div className="text-slate-400">Unknown module.</div>;
+    default:          return <div className="text-slate-400">{t('moduleRender.unknown')}</div>;
   }
 }

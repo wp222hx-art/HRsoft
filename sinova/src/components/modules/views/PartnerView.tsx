@@ -3,19 +3,21 @@
 import { useState } from 'react';
 import { PERSONA_PROFILES, type Persona } from '@/lib/enums';
 import { fmtDate } from '@/lib/utils';
+import { useI18n } from '@/i18n/client';
 
 type Chat = { id: string; createdAt: string; title?: string | null; persona?: string | null; messages: { id: string; role: string; content: string }[] };
 
-const SUGGESTIONS = [
-  '我的 SG 公司今年要交多少税?',
-  '帮我把这张 PDF 发票录入并催收',
-  '员工 ESOP vested 了,怎么计税?',
-  '阿联酋开 VAT 注册需要什么材料?',
-  '帮我看看 30 天内有什么合规风险',
-  '我要拓展到香港,该怎么开始?',
+const SUGGESTION_KEYS = [
+  'sugg.partner.howMuchTax',
+  'sugg.partner.uploadInv',
+  'sugg.partner.esop',
+  'sugg.partner.uaeVat',
+  'sugg.partner.risks30',
+  'sugg.partner.expandHK',
 ];
 
 export function PartnerView({ chats: initial }: { chats: Chat[] }) {
+  const { t } = useI18n();
   const [persona, setPersona] = useState<Persona>('MAYA');
   const [input, setInput]     = useState('');
   const [busy, setBusy]       = useState(false);
@@ -34,9 +36,9 @@ export function PartnerView({ chats: initial }: { chats: Chat[] }) {
         body: JSON.stringify({ message: q, persona }),
       });
       const j = await r.json();
-      setHistory((h) => [...h, { role: 'assistant', content: j.reply || '(空回复)', agent: j.intent }]);
+      setHistory((h) => [...h, { role: 'assistant', content: j.reply || t('partner.empty.reply'), agent: j.intent }]);
     } catch (e: any) {
-      setHistory((h) => [...h, { role: 'assistant', content: `出错: ${e?.message || e}` }]);
+      setHistory((h) => [...h, { role: 'assistant', content: t('partner.error.fmt', { e: e?.message || String(e) }) }]);
     } finally { setBusy(false); }
   }
 
@@ -44,9 +46,9 @@ export function PartnerView({ chats: initial }: { chats: Chat[] }) {
     <div className="space-y-5">
       {/* ── Persona switcher ── */}
       <section className="rounded-2xl border border-white/10 bg-ink-900/50 p-4">
-        <div className="text-sm font-semibold">🤝 选择你的 AI 合伙人</div>
+        <div className="text-sm font-semibold">{t('partner.shell.title')}</div>
         <div className="mt-1 text-[11px] text-slate-400">
-          三套人格 · 风格不同 · 同一套数据底层 · 按结果付费(成功省下 1 万,我才收 1000)· NovaShield 责任险兜底
+          {t('partner.shell.subtitle')}
         </div>
         <div className="mt-3 grid gap-3 md:grid-cols-3">
           {(['ALEX', 'MAYA', 'DR_CHEN'] as Persona[]).map((p) => {
@@ -66,11 +68,11 @@ export function PartnerView({ chats: initial }: { chats: Chat[] }) {
                   <span className="text-3xl">{pp.emoji}</span>
                   <div>
                     <div className="font-semibold text-white">{pp.name}</div>
-                    <div className="text-[11px] text-slate-400">{pp.tagline}</div>
+                    <div className="text-[11px] text-slate-400">{t(`persona.${p}.tagline`)}</div>
                   </div>
                 </div>
-                <div className="mt-2 text-[11px] text-slate-300">{pp.style}</div>
-                <div className="mt-1 text-[10px] text-slate-500">适配:{pp.audience}</div>
+                <div className="mt-2 text-[11px] text-slate-300">{t(`persona.${p}.style`)}</div>
+                <div className="mt-1 text-[10px] text-slate-500">{t('partner.shell.adapt')}{t(`persona.${p}.audience`)}</div>
               </button>
             );
           })}
@@ -83,12 +85,12 @@ export function PartnerView({ chats: initial }: { chats: Chat[] }) {
           <div className="flex items-center gap-2">
             <span className="text-2xl">{profile.emoji}</span>
             <div>
-              <div className="font-semibold">与 {profile.name} 对话</div>
-              <div className="text-[11px] text-slate-400">{profile.tagline}</div>
+              <div className="font-semibold">{t('partner.chat.with', { name: profile.name })}</div>
+              <div className="text-[11px] text-slate-400">{t(`persona.${persona}.tagline`)}</div>
             </div>
           </div>
           <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[11px] text-emerald-300">
-            ● 已通过 NovaShield 责任险担保
+            {t('partner.chat.shield')}
           </span>
         </div>
 
@@ -99,7 +101,7 @@ export function PartnerView({ chats: initial }: { chats: Chat[] }) {
                 <span className="text-3xl">{profile.emoji}</span>
                 <div className="text-sm text-slate-300">
                   <span className="font-medium text-white">{profile.name}: </span>
-                  你好👋 我可以帮你处理税务、薪酬、合规、应收应付的任何问题。试试下面的快捷提问 ↓
+                  {t('partner.chat.greeting')}
                 </div>
               </div>
             </div>
@@ -126,7 +128,7 @@ export function PartnerView({ chats: initial }: { chats: Chat[] }) {
           {busy && (
             <div className="flex">
               <div className="rounded-2xl border border-white/10 bg-ink-950/60 px-3 py-2 text-sm text-slate-400">
-                {profile.emoji} {profile.name} 正在思考…
+                {t('partner.chat.thinking', { emoji: profile.emoji, name: profile.name })}
               </div>
             </div>
           )}
@@ -135,16 +137,19 @@ export function PartnerView({ chats: initial }: { chats: Chat[] }) {
         {/* Suggestions */}
         <div className="border-t border-white/5 px-4 pt-3">
           <div className="flex flex-wrap gap-2">
-            {SUGGESTIONS.map((s) => (
-              <button
-                key={s}
-                onClick={() => send(s)}
-                disabled={busy}
-                className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] text-slate-300 hover:bg-white/10"
-              >
-                {s}
-              </button>
-            ))}
+            {SUGGESTION_KEYS.map((k) => {
+              const s = t(k);
+              return (
+                <button
+                  key={k}
+                  onClick={() => send(s)}
+                  disabled={busy}
+                  className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] text-slate-300 hover:bg-white/10"
+                >
+                  {s}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -154,11 +159,11 @@ export function PartnerView({ chats: initial }: { chats: Chat[] }) {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && send()}
-            placeholder={`和 ${profile.name} 聊点什么…`}
+            placeholder={t('partner.chat.placeholder', { name: profile.name })}
             className="nova-input flex-1"
           />
           <button onClick={() => send()} disabled={busy || !input.trim()} className="nova-btn-primary text-xs">
-            发送
+            {t('partner.chat.send')}
           </button>
         </div>
       </section>
@@ -166,16 +171,16 @@ export function PartnerView({ chats: initial }: { chats: Chat[] }) {
       {/* Recent threads */}
       {initial.length > 0 && (
         <section className="rounded-2xl border border-white/10 bg-ink-900/50 p-4">
-          <div className="mb-2 text-sm font-semibold">📂 最近对话</div>
+          <div className="mb-2 text-sm font-semibold">{t('partner.recent.title')}</div>
           <div className="grid gap-2 md:grid-cols-2">
             {initial.slice(0, 6).map((c) => (
               <div key={c.id} className="rounded-xl border border-white/5 bg-ink-950/60 p-3 text-xs">
                 <div className="flex items-center justify-between">
-                  <span className="font-medium text-white">{c.title || '未命名对话'}</span>
+                  <span className="font-medium text-white">{c.title || t('partner.thread.unnamed2')}</span>
                   <span className="text-slate-500">{fmtDate(c.createdAt)}</span>
                 </div>
                 <div className="mt-1 text-[11px] text-slate-400">
-                  {c.messages.length} 条消息 · persona: {c.persona || '—'}
+                  {t('partner.thread.msgs2', { n: c.messages.length, p: c.persona || '—' })}
                 </div>
               </div>
             ))}

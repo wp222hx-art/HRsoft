@@ -2,10 +2,12 @@
 import { getCurrentUser } from '@/lib/auth';
 import { prisma } from '@/lib/db';
 import { fmtDate } from '@/lib/utils';
+import { getServerT } from '@/i18n/server';
 
 export default async function SettingsPage() {
   const user = await getCurrentUser();
   if (!user) return null;
+  const { t } = getServerT();
   const ledger = await prisma.tokenLedgerEntry.findMany({
     where: { userId: user.id }, orderBy: { createdAt: 'desc' }, take: 20,
   });
@@ -13,25 +15,25 @@ export default async function SettingsPage() {
   return (
     <div className="space-y-5">
       <div>
-        <h1 className="text-2xl font-bold">⚙️ 账户设置</h1>
-        <p className="mt-1 text-sm text-slate-400">个人资料 · API Key · Token 流水 · NovaPassport</p>
+        <h1 className="text-2xl font-bold">{t('settings.title')}</h1>
+        <p className="mt-1 text-sm text-slate-400">{t('settings.subtitle')}</p>
       </div>
 
       <div className="grid gap-5 lg:grid-cols-2">
         <section className="rounded-2xl border border-white/10 bg-ink-900/50 p-4">
-          <div className="text-sm font-semibold">👤 个人资料</div>
+          <div className="text-sm font-semibold">{t('settings.profile')}</div>
           <div className="mt-3 space-y-1 text-sm">
-            <Row label="姓名" v={user.name} />
-            <Row label="邮箱" v={user.email} />
-            <Row label="角色" v={`${user.portal} · ${user.proType || user.smeType || '—'}`} />
-            <Row label="$NOVA 余额" v={`${user.novaTokens.toLocaleString()} (🔥 ${user.streakDays}d)`} />
-            <Row label="AI 合伙人" v={user.aiPersona || '—'} />
-            <Row label="加入时间" v={fmtDate(user.createdAt)} />
+            <Row label={t('settings.row.name')} v={user.name} />
+            <Row label={t('settings.row.email')} v={user.email} />
+            <Row label={t('settings.row.role')} v={`${user.portal} · ${user.proType || user.smeType || '—'}`} />
+            <Row label={t('settings.row.balance')} v={`${user.novaTokens.toLocaleString()} (🔥 ${user.streakDays}d)`} />
+            <Row label={t('settings.row.persona')} v={user.aiPersona || '—'} />
+            <Row label={t('settings.row.joined')} v={fmtDate(user.createdAt)} />
           </div>
         </section>
 
         <section className="rounded-2xl border border-white/10 bg-ink-900/50 p-4">
-          <div className="text-sm font-semibold">🪙 Token 流水(最近 20 笔)</div>
+          <div className="text-sm font-semibold">{t('settings.ledger')}</div>
           <div className="mt-3 max-h-[320px] divide-y divide-white/5 overflow-y-auto text-sm">
             {ledger.map((l) => (
               <div key={l.id} className="flex items-center justify-between py-2">
@@ -44,7 +46,7 @@ export default async function SettingsPage() {
                 </div>
               </div>
             ))}
-            {ledger.length === 0 && <div className="py-6 text-center text-xs text-slate-500">还没有流水</div>}
+            {ledger.length === 0 && <div className="py-6 text-center text-xs text-slate-500">{t('settings.ledger.empty')}</div>}
           </div>
         </section>
       </div>

@@ -1,8 +1,9 @@
 // NovaCopilot floating chat dock — calls /api/copilot/chat
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { X, Sparkles, Send, Cpu } from 'lucide-react';
+import { useI18n } from '@/i18n/client';
 
 type Msg = {
   role:    'user' | 'assistant';
@@ -12,25 +13,26 @@ type Msg = {
   ms?:     number;
 };
 
-const SUGGESTIONS = [
-  '今天有哪些 Radar 红色预警?',
-  '帮 ABC Pte Ltd 发本月工资',
-  '下季度有哪些税务截止日?',
-  '本月哪个客户最有可能违约?',
-  '我想在香港开个子公司',
-  '给所有逾期客户发催收邮件',
+const SUGGESTION_KEYS = [
+  'sugg.radarRed',
+  'sugg.payroll',
+  'sugg.taxDeadline',
+  'sugg.willDefault',
+  'sugg.openHK',
+  'sugg.dunning',
 ];
 
 export function CopilotDock({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const { t } = useI18n();
   const [messages, setMessages] = useState<Msg[]>([
-    {
-      role: 'assistant',
-      content: '👋 我是 NovaCopilot — 司诺平台的 AI 中枢。说一声您要做什么, 我会并行调用相关模块的 Agent。',
-    },
+    { role: 'assistant', content: t('copilot.welcome2') },
   ]);
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
   const scroller = useRef<HTMLDivElement>(null);
+
+  // Translated suggestion list
+  const suggestions = useMemo(() => SUGGESTION_KEYS.map((k) => t(k)), [t]);
 
   useEffect(() => {
     scroller.current?.scrollTo({ top: scroller.current.scrollHeight, behavior: 'smooth' });
@@ -52,14 +54,14 @@ export function CopilotDock({ open, onClose }: { open: boolean; onClose: () => v
         ...m,
         {
           role: 'assistant',
-          content: j.reply || '(无回复)',
+          content: j.reply || t('copilot.empty.reply'),
           agents: j.agents,
           intent: j.intent,
           ms: j.elapsedMs,
         },
       ]);
     } catch {
-      setMessages((m) => [...m, { role: 'assistant', content: '⚠️ 调用失败, 请稍后重试。' }]);
+      setMessages((m) => [...m, { role: 'assistant', content: t('copilot.callError') }]);
     } finally {
       setBusy(false);
     }
@@ -114,7 +116,7 @@ export function CopilotDock({ open, onClose }: { open: boolean; onClose: () => v
           {busy && (
             <div className="flex justify-start">
               <div className="rounded-2xl bg-white/5 px-4 py-2.5 text-xs text-slate-400 ring-1 ring-white/5">
-                NovaCopilot 正在并行调用 Agent…
+                {t('copilot.thinking2')}
               </div>
             </div>
           )}
@@ -124,10 +126,10 @@ export function CopilotDock({ open, onClose }: { open: boolean; onClose: () => v
         {messages.length <= 1 && (
           <div className="border-t border-white/5 px-4 py-3">
             <div className="text-[11px] uppercase tracking-widest text-slate-500">
-              试试这些指令 · doc §2.4
+              {t('copilot.tryThese')}
             </div>
             <div className="mt-2 flex flex-wrap gap-2">
-              {SUGGESTIONS.map((s) => (
+              {suggestions.map((s) => (
                 <button key={s} onClick={() => send(s)} disabled={busy}
                   className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-300 hover:bg-white/10 disabled:opacity-50">
                   {s}
@@ -142,7 +144,7 @@ export function CopilotDock({ open, onClose }: { open: boolean; onClose: () => v
           <form onSubmit={(e) => { e.preventDefault(); send(input); }}
                 className="flex items-center gap-2">
             <input value={input} onChange={(e) => setInput(e.target.value)}
-              placeholder="今天怎么帮您?"
+              placeholder={t('copilot.placeholder2')}
               className="nova-input-dark flex-1" />
             <button type="submit" disabled={busy || !input.trim()}
               className="rounded-xl bg-nova-600 p-2.5 text-white hover:bg-nova-700 disabled:opacity-40">

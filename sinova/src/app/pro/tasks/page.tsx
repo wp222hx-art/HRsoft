@@ -3,10 +3,12 @@ import Link from 'next/link';
 import { prisma } from '@/lib/db';
 import { getCurrentUser } from '@/lib/auth';
 import { fmtDate, formatMoney, relativeDays } from '@/lib/utils';
+import { getServerT } from '@/i18n/server';
 
 export default async function TasksPage() {
   const user = await getCurrentUser();
   if (!user) return null;
+  const { t } = getServerT();
   const filter = user.portal === 'ADMIN' ? {} : { entity: { managerId: user.id } };
 
   const [filings, payrolls, govActions] = await Promise.all([
@@ -30,41 +32,41 @@ export default async function TasksPage() {
   return (
     <div className="space-y-5">
       <div>
-        <h1 className="text-2xl font-bold">📅 我的任务台</h1>
-        <p className="mt-1 text-sm text-slate-400">所有跨模块的待办事项 · 由 NovaCopilot Multi-Agent 自动归集</p>
+        <h1 className="text-2xl font-bold">{t('pro.tasks.title')}</h1>
+        <p className="mt-1 text-sm text-slate-400">{t('pro.tasks.subtitle')}</p>
       </div>
 
       <div className="grid gap-5 lg:grid-cols-3">
-        <Section title="🛡 税务申报" count={filings.length}>
+        <Section title={t('pro.tasks.section.tax')} count={filings.length} countLabel={t('pro.tasks.count')}>
           {filings.map((f) => (
             <Row
               key={f.id} icon="🛡"
-              title={`${f.formType} · ${f.entity.legalName}`}
-              meta={`${f.entity.jurisdiction} · ${formatMoney(f.taxPayable)} · ${relativeDays(f.dueDate)}`}
+              title={t('pro.tasks.taxRowTitle', { form: f.formType, entity: f.entity.legalName })}
+              meta={t('pro.tasks.taxRowMeta', { juris: t(`juris.${f.entity.jurisdiction}`), money: formatMoney(f.taxPayable), due: relativeDays(f.dueDate) })}
               status={f.status}
               href="/pro/modules/taxshield"
             />
           ))}
         </Section>
 
-        <Section title="💸 薪酬运行" count={payrolls.length}>
+        <Section title={t('pro.tasks.section.payroll')} count={payrolls.length} countLabel={t('pro.tasks.count')}>
           {payrolls.map((p) => (
             <Row
               key={p.id} icon="💸"
-              title={`${p.period} · ${p.entity.legalName}`}
-              meta={`${p.headcount} 人 · 净额 ${formatMoney(p.netTotal)}`}
+              title={t('pro.tasks.payrollRowTitle', { period: p.period, entity: p.entity.legalName })}
+              meta={t('pro.tasks.payrollRowMeta', { n: p.headcount, money: formatMoney(p.netTotal) })}
               status={p.status}
               href="/pro/modules/payflow"
             />
           ))}
         </Section>
 
-        <Section title="🏛 公司治理" count={govActions.length}>
+        <Section title={t('pro.tasks.section.gov')} count={govActions.length} countLabel={t('pro.tasks.count')}>
           {govActions.map((g) => (
             <Row
               key={g.id} icon="🏛"
               title={`${g.title}`}
-              meta={`${g.entity.legalName} · ${g.dueDate ? relativeDays(g.dueDate) : '—'}`}
+              meta={t('pro.tasks.govRowMeta', { entity: g.entity.legalName, due: g.dueDate ? relativeDays(g.dueDate) : '—' })}
               status={g.status}
               href="/pro/modules/govhub"
             />
@@ -75,12 +77,12 @@ export default async function TasksPage() {
   );
 }
 
-function Section({ title, count, children }: { title: string; count: number; children: React.ReactNode }) {
+function Section({ title, count, countLabel, children }: { title: string; count: number; countLabel: string; children: React.ReactNode }) {
   return (
     <section className="rounded-2xl border border-white/10 bg-ink-900/50">
       <div className="flex items-center justify-between border-b border-white/5 px-4 py-3">
         <div className="font-semibold">{title}</div>
-        <span className="text-xs text-slate-500">{count} 项</span>
+        <span className="text-xs text-slate-500">{count} {countLabel}</span>
       </div>
       <div className="divide-y divide-white/5 max-h-[520px] overflow-y-auto">{children}</div>
     </section>

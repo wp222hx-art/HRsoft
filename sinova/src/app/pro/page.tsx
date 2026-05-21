@@ -5,10 +5,12 @@ import { getCurrentUser } from '@/lib/auth';
 import { RADAR_LEVEL_META } from '@/lib/enums';
 import { fmtDate, formatMoney, relativeDays } from '@/lib/utils';
 import { ArrowRight, AlertTriangle, Calendar, Activity, Briefcase } from 'lucide-react';
+import { getServerT } from '@/i18n/server';
 
 export default async function ProHome() {
   const user = await getCurrentUser();
   if (!user) return null;
+  const { t } = getServerT();
 
   const [alerts, filings, payrolls, govActions, invoices, entityCount] = await Promise.all([
     prisma.radarAlert.findMany({
@@ -52,29 +54,29 @@ export default async function ProHome() {
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-bold">
-            早上好, {user.name.split(' ')[0]} 👋
+            {t('pro.home.greetingFmt', { name: user.name.split(' ')[0] })}
           </h1>
           <p className="mt-1 text-sm text-slate-400">
-            今日 NovaCopilot 已为您并行调用 4 个 Agent · 已自动处理 12 张逾期发票 · 待您审核 {filings.length} 份税务草稿
+            {t('pro.home.subtitleFmt', { n: filings.length })}
           </p>
         </div>
         <Link href="/pro/clients" className="nova-btn-outline text-xs">
-          管理 {entityCount} 个客户 entity →
+          {t('pro.home.manageEntities', { n: entityCount })}
         </Link>
       </div>
 
       {/* Stat tiles */}
       <div className="grid gap-3 md:grid-cols-4">
-        <StatTile icon={<Briefcase className="h-4 w-4" />} label="管理客户 entity" value={String(stats.entities)} accent="text-nova-300" />
-        <StatTile icon={<AlertTriangle className="h-4 w-4" />} label="待处理 Radar 预警" value={String(stats.radar)} accent="text-risk-orange" />
-        <StatTile icon={<Activity className="h-4 w-4" />} label="逾期应收笔数"     value={String(stats.overdue)} accent="text-risk-yellow" />
-        <StatTile icon={<Calendar className="h-4 w-4" />} label="逾期应收金额"     value={formatMoney(stats.overdueAmt)} accent="text-risk-red" />
+        <StatTile icon={<Briefcase className="h-4 w-4" />}      label={t('pro.home.stat.entities')}   value={String(stats.entities)} accent="text-nova-300" />
+        <StatTile icon={<AlertTriangle className="h-4 w-4" />}  label={t('pro.home.stat.radarOpen')}  value={String(stats.radar)}    accent="text-risk-orange" />
+        <StatTile icon={<Activity className="h-4 w-4" />}       label={t('pro.home.stat.overdue')}    value={String(stats.overdue)}  accent="text-risk-yellow" />
+        <StatTile icon={<Calendar className="h-4 w-4" />}       label={t('pro.home.stat.overdueAmt')} value={formatMoney(stats.overdueAmt)} accent="text-risk-red" />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Radar 早安预警 */}
         <section className="lg:col-span-2">
-          <SectionHead title="📡 Radar 早安预警" link="/pro/modules/radar" linkLabel="进入 Radar →" />
+          <SectionHead title={t('pro.home.section.alerts')} link="/pro/modules/radar" linkLabel={t('pro.home.section.toEnter')} />
           <div className="mt-3 space-y-2">
             {alerts.map((a) => {
               const m = RADAR_LEVEL_META[a.level as keyof typeof RADAR_LEVEL_META];
@@ -92,20 +94,20 @@ export default async function ProHome() {
                       </span>
                     </div>
                     <div className="mt-1 text-xs text-slate-400">
-                      {a.entity.legalName} · {a.entity.jurisdiction} · {a.sourceModule}
+                      {a.entity.legalName} · {t(`juris.${a.entity.jurisdiction}`)} · {a.sourceModule}
                     </div>
                     <div className="mt-1 text-sm text-slate-300 line-clamp-2">{a.description}</div>
                   </div>
                   <Link href="/pro/modules/radar"
                     className="rounded-lg bg-white/5 px-3 py-1.5 text-xs text-slate-200 hover:bg-white/10">
-                    处理 →
+                    {t('pro.home.alerts.handle')}
                   </Link>
                 </div>
               );
             })}
             {alerts.length === 0 && (
               <div className="rounded-xl border border-white/5 bg-white/[0.02] p-6 text-center text-sm text-slate-400">
-                🟢 当前无未处理预警, 全部健康。
+                {t('pro.home.alerts.healthy')}
               </div>
             )}
           </div>
@@ -114,31 +116,34 @@ export default async function ProHome() {
         {/* Today's todos */}
         <section className="space-y-4">
           <div>
-            <SectionHead title="📅 今日待办" />
+            <SectionHead title={t('pro.home.section.todos')} />
             <div className="mt-3 space-y-2">
               {filings.slice(0, 4).map((f) => (
                 <TaskRow key={f.id} icon="🛡" title={`${f.formType} · ${f.entity.legalName}`}
                   meta={`${relativeDays(f.dueDate)} · ${formatMoney(f.taxPayable)}`} status={f.status} />
               ))}
               {payrolls.map((p) => (
-                <TaskRow key={p.id} icon="💸" title={`薪酬 · ${p.entity.legalName}`}
-                  meta={`${p.headcount} 人 · ${formatMoney(p.netTotal)}`} status={p.status} />
+                <TaskRow key={p.id} icon="💸"
+                  title={t('pro.home.payrollTitleFmt', { entity: p.entity.legalName })}
+                  meta={t('pro.home.payrollMetaFmt', { n: p.headcount, money: formatMoney(p.netTotal) })}
+                  status={p.status} />
               ))}
               {govActions.map((g) => (
-                <TaskRow key={g.id} icon="🏛" title={`${g.title} · ${g.entity.legalName}`}
-                  meta={g.dueDate ? relativeDays(g.dueDate) : '—'} status={g.status} />
+                <TaskRow key={g.id} icon="🏛"
+                  title={t('pro.home.govActionTitleFmt', { title: g.title, entity: g.entity.legalName })}
+                  meta={g.dueDate ? relativeDays(g.dueDate) : t('pro.home.dashEm')} status={g.status} />
               ))}
             </div>
           </div>
 
           <div>
-            <SectionHead title="📊 实时 Agent 流" />
+            <SectionHead title={t('pro.home.section.agentStream')} />
             <div className="mt-3 space-y-2 rounded-xl border border-white/5 bg-white/[0.02] p-4 text-xs leading-relaxed text-slate-300">
-              <AgentLine>TaxShield Agent 正在为 ABC Pte Ltd 生成 Form C-S 草稿…</AgentLine>
-              <AgentLine done>CashLoop Agent 已自动催收 12 张逾期发票 ✓</AgentLine>
-              <AgentLine done>Radar Agent 检测到 Web3 客户加密税新规 →</AgentLine>
-              <AgentLine>PayFlow Agent 正在等待 5 位员工确认 ESOP 行权…</AgentLine>
-              <AgentLine done>NovaVault Agent 已上链存证 24 份合规文件 ⛓</AgentLine>
+              <AgentLine>{t('pro.home.agent.tax')}</AgentLine>
+              <AgentLine done>{t('pro.home.agent.cash')}</AgentLine>
+              <AgentLine done>{t('pro.home.agent.radar')}</AgentLine>
+              <AgentLine>{t('pro.home.agent.payflow')}</AgentLine>
+              <AgentLine done>{t('pro.home.agent.vault')}</AgentLine>
             </div>
           </div>
         </section>

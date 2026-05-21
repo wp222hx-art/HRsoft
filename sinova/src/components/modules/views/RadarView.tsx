@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { RADAR_LEVEL_META } from '@/lib/enums';
 import { fmtDate } from '@/lib/utils';
+import { useI18n } from '@/i18n/client';
 
 type Alert = {
   id: string; title: string; status: string; level: string;
@@ -12,6 +13,7 @@ type Alert = {
 };
 
 export function RadarView({ alerts: initial }: { alerts: Alert[] }) {
+  const { t } = useI18n();
   const [alerts, setAlerts] = useState<Alert[]>(initial);
   // ── Live scoring demo state ──
   const [hist, setHist] = useState(72);
@@ -39,10 +41,9 @@ export function RadarView({ alerts: initial }: { alerts: Alert[] }) {
       if (r.ok) {
         const j = await r.json();
         setAlerts((cur) => cur.map((a) => a.id === id ? { ...a, status: 'CLOSED' } : a));
-        // tiny toast
         if (typeof window !== 'undefined') {
-          (window as any).__novaToast?.(`+${j.tokens || 0} $NOVA · 警报关闭 🎉`);
-          alert(`+${j.tokens || 0} $NOVA · 警报已关闭 🎉`);
+          (window as any).__novaToast?.(t('radar.toastFmt', { n: j.tokens || 0 }));
+          alert(t('radar.alertFmt', { n: j.tokens || 0 }));
         }
       }
     } finally { setClosing(null); }
@@ -55,6 +56,7 @@ export function RadarView({ alerts: initial }: { alerts: Alert[] }) {
   });
 
   const levelMeta = RADAR_LEVEL_META[(scored?.level as any) || 'HEALTHY'];
+  const levelLabel = (lv: string) => t(`radar.level.${lv}`);
 
   return (
     <div className="space-y-5">
@@ -62,22 +64,22 @@ export function RadarView({ alerts: initial }: { alerts: Alert[] }) {
       <section className="rounded-2xl border border-white/10 bg-gradient-to-br from-nova-900/40 via-ink-950 to-ink-950 p-5">
         <div className="flex items-center justify-between">
           <div>
-            <div className="text-sm font-semibold">📡 Compliance Radar · 三维评分实时演算</div>
+            <div className="text-sm font-semibold">{t('radar.section.score')}</div>
             <div className="text-[11px] text-slate-400">
-              文档 §2.2.6 公式: <span className="font-mono text-slate-300">composite = history × 0.4 + benchmark × 0.3 + regulatory × 0.3</span>
+              {t('radar.section.scoreFormula')}<span className="font-mono text-slate-300">composite = history × 0.4 + benchmark × 0.3 + regulatory × 0.3</span>
             </div>
           </div>
           <button onClick={recompute} disabled={scoring} className="nova-btn-primary text-xs">
-            {scoring ? '评分中…' : '🚀 实时评分'}
+            {scoring ? t('common.scoring') : t('radar.btn.recompute')}
           </button>
         </div>
 
         <div className="mt-5 grid gap-4 lg:grid-cols-2">
           {/* Sliders */}
           <div className="space-y-4">
-            <Slider label="客户历史合规" weight="40%" hint="过往 36 个月按时率 / 罚款记录" value={hist} setValue={setHist} accent="emerald" />
-            <Slider label="行业基准对比" weight="30%" hint="同行同 size 同 jurisdiction 偏差" value={bench} setValue={setBench} accent="cyan" />
-            <Slider label="监管风向变化" weight="30%" hint="新法规命中度 + 处罚趋势" value={reg} setValue={setReg} accent="amber" />
+            <Slider label={t('radar.dim.history')}   weight={t('radar.weight40')} hint={t('radar.dim.history.hint')}   value={hist} setValue={setHist} accent="emerald" />
+            <Slider label={t('radar.dim.benchmark')} weight={t('radar.weight30')} hint={t('radar.dim.benchmark.hint')} value={bench} setValue={setBench} accent="cyan" />
+            <Slider label={t('radar.dim.reg')}       weight={t('radar.weight30')} hint={t('radar.dim.reg.hint')}       value={reg} setValue={setReg} accent="amber" />
           </div>
 
           {/* Radar visual + result */}
@@ -85,12 +87,12 @@ export function RadarView({ alerts: initial }: { alerts: Alert[] }) {
             <div className="relative flex h-56 items-center justify-center">
               <div className={`radar-ring h-44 w-44 rounded-full border-2 ${levelMeta.ring}`} />
               <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <div className="text-[11px] text-slate-500">综合评分</div>
+                <div className="text-[11px] text-slate-500">{t('radar.composite2')}</div>
                 <div className={`text-5xl font-black ${levelMeta.color}`}>
                   {scored?.composite ?? '—'}
                 </div>
                 <div className={`mt-1 rounded-full px-3 py-0.5 text-xs ${levelMeta.bg} ${levelMeta.color}`}>
-                  {levelMeta.emoji} {levelMeta.label} · 提前 {scored?.daysAhead ?? 0} 天
+                  {levelMeta.emoji} {levelLabel(scored?.level || 'HEALTHY')} · {t('radar.aheadDays2', { n: scored?.daysAhead ?? 0 })}
                 </div>
               </div>
             </div>
@@ -102,7 +104,7 @@ export function RadarView({ alerts: initial }: { alerts: Alert[] }) {
               </div>
             )}
             {!scored && (
-              <div className="mt-3 text-center text-[11px] text-slate-500">← 拖动左侧滑杆,点击实时评分查看 Radar 推断结果</div>
+              <div className="mt-3 text-center text-[11px] text-slate-500">{t('radar.dragHint')}</div>
             )}
           </div>
         </div>
@@ -112,11 +114,11 @@ export function RadarView({ alerts: initial }: { alerts: Alert[] }) {
       <section className="rounded-2xl border border-white/10 bg-ink-900/50">
         <div className="flex items-center justify-between border-b border-white/5 px-4 py-3">
           <div>
-            <div className="font-semibold">🚨 当前风险预警</div>
-            <div className="text-[11px] text-slate-400">关闭警报即可获得 $NOVA Token 奖励:CRITICAL +200 / ALERT +100 / WATCH +50</div>
+            <div className="font-semibold">{t('radar.alerts.title')}</div>
+            <div className="text-[11px] text-slate-400">{t('radar.alerts.hint')}</div>
           </div>
           <div className="text-xs text-slate-500">
-            合计 {alerts.filter((a) => a.status !== 'CLOSED').length} 个开放警报
+            {t('radar.alerts.totalOpen', { n: alerts.filter((a) => a.status !== 'CLOSED').length })}
           </div>
         </div>
 
@@ -128,8 +130,8 @@ export function RadarView({ alerts: initial }: { alerts: Alert[] }) {
             return (
               <div key={lv}>
                 <div className="mb-2 flex items-center gap-2 text-xs">
-                  <span className={`rounded-full px-2 py-0.5 ${meta.bg} ${meta.color}`}>{meta.emoji} {meta.label}</span>
-                  <span className="text-slate-500">提前 {meta.ahead} · 共 {list.length} 单</span>
+                  <span className={`rounded-full px-2 py-0.5 ${meta.bg} ${meta.color}`}>{meta.emoji} {levelLabel(lv)}</span>
+                  <span className="text-slate-500">{t('radar.alerts.aheadOf')} {meta.ahead} · {t('radar.alerts.count', { n: list.length })}</span>
                 </div>
                 <div className="grid gap-2 md:grid-cols-2">
                   {list.map((a) => (
@@ -138,15 +140,15 @@ export function RadarView({ alerts: initial }: { alerts: Alert[] }) {
                         <div className="flex-1 pr-3">
                           <div className="font-medium text-white">{a.title}</div>
                           <div className="mt-0.5 text-[11px] text-slate-400">
-                            {a.entity?.legalName} · {a.entity?.jurisdiction} · {fmtDate(a.createdAt)}
+                            {t('radar.alertCardLine', { entity: a.entity?.legalName || '—', juris: a.entity?.jurisdiction ? t(`juris.${a.entity.jurisdiction}`) : '—', date: fmtDate(a.createdAt) })}
                           </div>
                         </div>
                         <div className={`text-2xl font-black ${meta.color}`}>{a.composite}</div>
                       </div>
                       <div className="mt-2 grid grid-cols-3 gap-1 text-[10px] text-slate-400">
-                        <Bar label="历史" v={a.scoreHistory} />
-                        <Bar label="基准" v={a.scoreBenchmark} />
-                        <Bar label="监管" v={a.scoreReg} />
+                        <Bar label={t('radar.dim.short.history')}   v={a.scoreHistory} />
+                        <Bar label={t('radar.dim.short.benchmark')} v={a.scoreBenchmark} />
+                        <Bar label={t('radar.dim.short.reg')}       v={a.scoreReg} />
                       </div>
                       <div className="mt-2 flex justify-end">
                         <button
@@ -154,7 +156,7 @@ export function RadarView({ alerts: initial }: { alerts: Alert[] }) {
                           disabled={closing === a.id}
                           className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-white hover:bg-white/10 disabled:opacity-50"
                         >
-                          {closing === a.id ? '关闭中…' : '✅ 关闭警报 · 领 $NOVA'}
+                          {closing === a.id ? t('common.closing') : t('radar.alerts.close')}
                         </button>
                       </div>
                     </div>
@@ -165,7 +167,7 @@ export function RadarView({ alerts: initial }: { alerts: Alert[] }) {
           })}
           {alerts.filter((a) => a.status !== 'CLOSED').length === 0 && (
             <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-5 text-center text-sm text-emerald-300">
-              🟢 所有警报均已处理 — 客户健康度 100% · 你为本季度赢得了 守门员 🛡 徽章
+              {t('radar.alerts.allClear')}
             </div>
           )}
         </div>
